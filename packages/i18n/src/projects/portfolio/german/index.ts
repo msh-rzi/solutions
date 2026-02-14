@@ -1,0 +1,1 @@
+export { germanMessages } from "./messages";

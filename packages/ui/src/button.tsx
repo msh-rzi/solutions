@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+import { Button as ManButton } from '@mantine/core';
 
 interface ButtonProps {
   children: ReactNode;
@@ -10,11 +11,9 @@ interface ButtonProps {
 
 export const Button = ({ children, className, appName }: ButtonProps) => {
   return (
-    <button
-      className={className}
-      onClick={() => alert(`Hello from your ${appName} app!`)}
-    >
+    <ManButton variant="filled" onClick={() => alert(`Hello from your ${appName} app!`)}>
       {children}
-    </button>
+    </ManButton>
   );
 };
+

@@ -1,0 +1,1 @@
+export { persianMessages } from "./messages";
