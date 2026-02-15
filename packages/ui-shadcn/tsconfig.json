@@ -5,10 +5,12 @@
     "baseUrl": ".",
     "paths": {
       "@/utils": ["./src/utils"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/utils/*": ["./src/utils/*"],
+      "src/lib/utils": ["./src/utils"]
     },
     "traceResolution": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
+

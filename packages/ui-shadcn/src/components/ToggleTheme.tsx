@@ -1,10 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { MoonIcon } from '@phosphor-icons/react/dist/csr/Moon';
-import { SunIcon } from '@phosphor-icons/react/dist/csr/Sun';
 import { useTheme } from '../provider';
 import { Button } from './ui/button';
+import { Moon, Sun } from 'lucide-react';
 
 export function ToggleTheme() {
   const { theme, toggleTheme } = useTheme();
@@ -18,7 +17,7 @@ export function ToggleTheme() {
 
   return (
     <Button type="button" variant="outline" size="sm" aria-label="Toggle theme" onClick={toggleTheme}>
-      {isDark ? <SunIcon size={16} weight="light" /> : <MoonIcon size={16} weight="light" />}
+      {isDark ? <Sun size={16} /> : <Moon size={16} />}
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
