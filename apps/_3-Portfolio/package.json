@@ -1,0 +1,41 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts dev PORT_PORTFOLIO",
+    "build": "next build",
+    "start": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts start PORT_PORTFOLIO",
+    "lint": "eslint",
+    "check-types": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/ui-mantine": "*",
+    "@repo/ui-shadcn": "*",
+    "@repo/i18n": "*",
+    "@repo/tailwind": "*",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "ignoreScripts": [
+    "sharp",
+    "unrs-resolver"
+  ],
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ]
+}

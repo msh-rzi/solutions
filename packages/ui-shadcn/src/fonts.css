@@ -1,0 +1,81 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('./fonts/Vazirmatn[wght].woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('./fonts/Euclid Circular A Light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('./fonts/Euclid Circular A Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('./fonts/Euclid Circular A Medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('./fonts/Euclid Circular A SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('./fonts/Euclid Circular A Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+html {
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[lang='fa'] {
+  font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html[lang='fa'] > * {
+  font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html:not([lang='fa']) {
+  font-family: 'Euclid Circular A', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+html:not([lang='fa']) > * {
+  font-family: 'Euclid Circular A', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.persian-font {
+  font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.persian-numbers {
+  font-feature-settings: normal 'ss01' on;
+}
+
+.non-persian-font {
+  font-family: 'Euclid Circular A', ui-sans-serif, system-ui, sans-serif !important;
+}
+
