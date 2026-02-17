@@ -24,3 +24,4 @@ const proc = Bun.spawn([process.execPath, 'x', 'next', mode, '--port', port], {
 
 const exitCode = await proc.exited;
 process.exit(exitCode);
+
