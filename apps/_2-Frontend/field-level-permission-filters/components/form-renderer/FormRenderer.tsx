@@ -1,12 +1,10 @@
-"use client";
+'use client';
 
-import { useForm } from "@tanstack/react-form";
-import { Button, Stack, Divider, Text } from "@repo/ui-mantine";
-import { FormField } from "./FormField";
-import type { ResolvedField } from "@/lib/form-schema/types";
-import type { SubmitFormResult } from "@/app/actions/form-actions";
-
-// ─── Types ─────────────────────────────────────────────────────────────────────
+import { useForm } from '@tanstack/react-form';
+import { Button, Stack, Divider, Text } from '@repo/ui-mantine';
+import { FormField } from './FormField';
+import type { ResolvedField } from '@/lib/form-schema/types';
+import type { SubmitFormResult } from '@/app/actions/form-actions';
 
 interface FormRendererProps {
   fields: ResolvedField[];
@@ -15,25 +13,13 @@ interface FormRendererProps {
   isPending?: boolean;
 }
 
-// ─── Component ─────────────────────────────────────────────────────────────────
+export function FormRenderer({ fields, initialData = {}, onSubmit, isPending = false }: FormRendererProps) {
+  const visibleFields = fields.filter((f) => f.isVisible && f.accessLevel !== 'hidden');
 
-export function FormRenderer({
-  fields,
-  initialData = {},
-  onSubmit,
-  isPending = false,
-}: FormRendererProps) {
-  const visibleFields = fields.filter(
-    (f) => f.isVisible && f.accessLevel !== "hidden",
-  );
-
-  const defaultValues = visibleFields.reduce<Record<string, unknown>>(
-    (acc, field) => {
-      acc[field.id] = initialData[field.id] ?? field.defaultValue ?? "";
-      return acc;
-    },
-    {},
-  );
+  const defaultValues = visibleFields.reduce<Record<string, unknown>>((acc, field) => {
+    acc[field.id] = initialData[field.id] ?? field.defaultValue ?? '';
+    return acc;
+  }, {});
 
   const form = useForm({
     defaultValues,
@@ -54,12 +40,8 @@ export function FormRenderer({
     },
   });
 
-  const editableFields = visibleFields.filter(
-    (f) => f.accessLevel === "editable",
-  );
-  const readonlyFields = visibleFields.filter(
-    (f) => f.accessLevel === "readonly",
-  );
+  const editableFields = visibleFields.filter((f) => f.accessLevel === 'editable');
+  const readonlyFields = visibleFields.filter((f) => f.accessLevel === 'readonly');
 
   return (
     <form
@@ -79,8 +61,7 @@ export function FormRenderer({
                 name={field.id}
                 validators={{
                   onChange: ({ value }) => {
-                    if (field.isRequired && !value)
-                      return `${field.label} is required`;
+                    if (field.isRequired && !value) return `${field.label} is required`;
                     return undefined;
                   },
                 }}
@@ -89,9 +70,7 @@ export function FormRenderer({
                   <FormField
                     field={field}
                     value={fieldApi.state.value}
-                    error={
-                      fieldApi.state.meta.errors?.[0] as string | undefined
-                    }
+                    error={fieldApi.state.meta.errors?.[0] as string | undefined}
                     onChange={fieldApi.handleChange}
                     onBlur={fieldApi.handleBlur}
                   />
@@ -104,9 +83,7 @@ export function FormRenderer({
         {/* Read-only fields */}
         {readonlyFields.length > 0 && (
           <>
-            {editableFields.length > 0 && (
-              <Divider label="Read-only fields" labelPosition="left" />
-            )}
+            {editableFields.length > 0 && <Divider label="Read-only fields" labelPosition="left" />}
             <Stack gap="md">
               {readonlyFields.map((field) => (
                 <form.Field key={field.id} name={field.id}>
@@ -114,9 +91,7 @@ export function FormRenderer({
                     <FormField
                       field={field}
                       value={fieldApi.state.value}
-                      error={
-                        fieldApi.state.meta.errors?.[0] as string | undefined
-                      }
+                      error={fieldApi.state.meta.errors?.[0] as string | undefined}
                       onChange={fieldApi.handleChange}
                       onBlur={fieldApi.handleBlur}
                     />
@@ -140,15 +115,8 @@ export function FormRenderer({
           })}
         >
           {({ canSubmit, isSubmitting }) => (
-            <Button
-              type="submit"
-              disabled={!canSubmit}
-              loading={isSubmitting || isPending}
-              fullWidth
-              size="md"
-              mt="xs"
-            >
-              {isSubmitting || isPending ? "Saving…" : "Save Changes"}
+            <Button type="submit" disabled={!canSubmit} loading={isSubmitting || isPending} fullWidth size="md" mt="xs">
+              {isSubmitting || isPending ? 'Saving…' : 'Save Changes'}
             </Button>
           )}
         </form.Subscribe>
@@ -156,3 +124,4 @@ export function FormRenderer({
     </form>
   );
 }
+

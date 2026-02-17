@@ -1,30 +1,23 @@
-import { Paper, Title, Grid, Card, Text } from "@repo/ui-mantine";
-
-// ─── Data ──────────────────────────────────────────────────────────────────────
+import { Paper, Title, Grid, Card, Text } from '@repo/ui-mantine';
 
 const HIGHLIGHTS = [
   {
-    title: "Declarative Schema",
-    description:
-      "Fields, permissions, and validation defined in a single typed object",
+    title: 'Declarative Schema',
+    description: 'Fields, permissions, and validation defined in a single typed object',
   },
   {
-    title: "Permission Resolver",
-    description:
-      "Dynamic field access computed from role + context at render time",
+    title: 'Permission Resolver',
+    description: 'Dynamic field access computed from role + context at render time',
   },
   {
-    title: "Server-Side Filter",
-    description:
-      "All submissions validated and RBAC-filtered on the server — never trust the client",
+    title: 'Server-Side Filter',
+    description: 'All submissions validated and RBAC-filtered on the server — never trust the client',
   },
   {
-    title: "Single Source of Truth",
-    description: "Same schema drives rendering, authorization, and validation",
+    title: 'Single Source of Truth',
+    description: 'Same schema drives rendering, authorization, and validation',
   },
 ] as const;
-
-// ─── Component ─────────────────────────────────────────────────────────────────
 
 export function ArchitectureHighlights() {
   return (
@@ -49,3 +42,4 @@ export function ArchitectureHighlights() {
     </Paper>
   );
 }
+

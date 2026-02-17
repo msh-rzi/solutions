@@ -1,39 +1,16 @@
-"use client";
+'use client';
 
-import { memo } from "react";
-import {
-  Card,
-  Stack,
-  Group,
-  Text,
-  Badge,
-  Code,
-  Accordion,
-  ThemeIcon,
-} from "@repo/ui-mantine";
-import { Eye, Pencil, Lock, EyeOff, ShieldCheck } from "lucide-react";
-import type { FieldsByAccess, UserRole } from "@/lib/form-schema/types";
-
-// ─── Types ─────────────────────────────────────────────────────────────────────
+import { memo } from 'react';
+import { Card, Stack, Group, Text, Badge, Code, Accordion, ThemeIcon } from '@repo/ui-mantine';
+import { Eye, Pencil, Lock, EyeOff, ShieldCheck } from 'lucide-react';
+import type { FieldsByAccess, UserRole } from '@/lib/form-schema/types';
 
 interface PermissionStatsProps {
   role: UserRole;
   fieldsByAccess: FieldsByAccess;
 }
 
-// ─── Stat Row ──────────────────────────────────────────────────────────────────
-
-function StatRow({
-  icon,
-  label,
-  count,
-  color,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  count: number;
-  color: string;
-}) {
+function StatRow({ icon, label, count, color }: { icon: React.ReactNode; label: string; count: number; color: string }) {
   return (
     <Group justify="space-between" wrap="nowrap">
       <Group gap={8} wrap="nowrap">
@@ -49,44 +26,22 @@ function StatRow({
   );
 }
 
-// ─── Role Capabilities ─────────────────────────────────────────────────────────
+const ROLE_CAPABILITIES: Record<UserRole, { can: string[]; cannot: string[] }> = {
+  employee: {
+    can: ['Edit personal information', 'View department & title'],
+    cannot: ['Change department', 'View salary', 'View SSN', 'Deactivate account'],
+  },
+  manager: {
+    can: ['Edit all employee info', 'Change department', 'View salary (read-only)'],
+    cannot: ['View SSN', 'Edit salary', 'Deactivate account'],
+  },
+  admin: {
+    can: ['Full field access', 'Edit salary', 'View & edit SSN', 'Deactivate accounts'],
+    cannot: [],
+  },
+};
 
-const ROLE_CAPABILITIES: Record<UserRole, { can: string[]; cannot: string[] }> =
-  {
-    employee: {
-      can: ["Edit personal information", "View department & title"],
-      cannot: [
-        "Change department",
-        "View salary",
-        "View SSN",
-        "Deactivate account",
-      ],
-    },
-    manager: {
-      can: [
-        "Edit all employee info",
-        "Change department",
-        "View salary (read-only)",
-      ],
-      cannot: ["View SSN", "Edit salary", "Deactivate account"],
-    },
-    admin: {
-      can: [
-        "Full field access",
-        "Edit salary",
-        "View & edit SSN",
-        "Deactivate accounts",
-      ],
-      cannot: [],
-    },
-  };
-
-// ─── Component ─────────────────────────────────────────────────────────────────
-
-export const PermissionStats = memo(function PermissionStats({
-  role,
-  fieldsByAccess,
-}: PermissionStatsProps) {
+export const PermissionStats = memo(function PermissionStats({ role, fieldsByAccess }: PermissionStatsProps) {
   const caps = ROLE_CAPABILITIES[role];
 
   return (
@@ -103,30 +58,10 @@ export const PermissionStats = memo(function PermissionStats({
         </Group>
 
         <Stack gap={10}>
-          <StatRow
-            icon={<Eye size={12} />}
-            label="Visible"
-            count={fieldsByAccess.visible.length}
-            color="blue"
-          />
-          <StatRow
-            icon={<Pencil size={12} />}
-            label="Editable"
-            count={fieldsByAccess.editable.length}
-            color="green"
-          />
-          <StatRow
-            icon={<Lock size={12} />}
-            label="Read-only"
-            count={fieldsByAccess.readonly.length}
-            color="orange"
-          />
-          <StatRow
-            icon={<EyeOff size={12} />}
-            label="Hidden"
-            count={fieldsByAccess.hidden.length}
-            color="red"
-          />
+          <StatRow icon={<Eye size={12} />} label="Visible" count={fieldsByAccess.visible.length} color="blue" />
+          <StatRow icon={<Pencil size={12} />} label="Editable" count={fieldsByAccess.editable.length} color="green" />
+          <StatRow icon={<Lock size={12} />} label="Read-only" count={fieldsByAccess.readonly.length} color="orange" />
+          <StatRow icon={<EyeOff size={12} />} label="Hidden" count={fieldsByAccess.hidden.length} color="red" />
         </Stack>
       </Card>
 
@@ -157,9 +92,7 @@ export const PermissionStats = memo(function PermissionStats({
       <Accordion variant="contained" radius="md">
         <Accordion.Item value="hidden">
           <Accordion.Control>
-            <Text size="sm">
-              Hidden fields ({fieldsByAccess.hidden.length})
-            </Text>
+            <Text size="sm">Hidden fields ({fieldsByAccess.hidden.length})</Text>
           </Accordion.Control>
           <Accordion.Panel>
             <Stack gap={6}>
@@ -181,3 +114,4 @@ export const PermissionStats = memo(function PermissionStats({
     </Stack>
   );
 });
+

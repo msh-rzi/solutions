@@ -1,40 +1,34 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo } from "react";
-import { Container, Stack, Grid, Paper, Title, Text } from "@repo/ui-mantine";
+import { useState, useEffect, useMemo } from 'react';
+import { Container, Stack, Grid, Paper, Title, Text } from '@repo/ui-mantine';
 
-import { PageHeader } from "@/components/PageHeader";
-import { ArchitectureHighlights } from "@/components/ArchitectureHighlights";
-import {
-  FormRenderer,
-  PermissionStats,
-  RoleSelector,
-} from "@/components/form-renderer";
+import { PageHeader } from '@/components/PageHeader';
+import { ArchitectureHighlights } from '@/components/ArchitectureHighlights';
+import { FormRenderer, PermissionStats, RoleSelector } from '@/components/form-renderer';
 
-import { useFormPermissions } from "@/hooks/useFormPermissions";
-import { useFormSubmit } from "@/hooks/useFormSubmit";
+import { useFormPermissions } from '@/hooks/useFormPermissions';
+import { useFormSubmit } from '@/hooks/useFormSubmit';
 
-import { employeeFormSchema } from "@/lib/form-schema/schemas";
-import { permissionResolver } from "@/lib/form-schema/resolver";
-import { getFormData } from "@/app/actions/form-actions";
-import type { UserRole, RequestContext } from "@/lib/form-schema/types";
-
-// ─── Page ──────────────────────────────────────────────────────────────────────
+import { employeeFormSchema } from '@/lib/form-schema/schemas';
+import { permissionResolver } from '@/lib/form-schema/resolver';
+import { getFormData } from '@/app/actions/form-actions';
+import type { UserRole, RequestContext } from '@/lib/form-schema/types';
 
 export default function Home() {
-  const [role, setRole] = useState<UserRole>("employee");
+  const [role, setRole] = useState<UserRole>('employee');
   const [formData, setFormData] = useState<Record<string, unknown>>({});
 
   // Load pre-populated data once on mount
   useEffect(() => {
-    getFormData("user-123").then(({ data }) => setFormData(data));
+    getFormData('user-123').then(({ data }) => setFormData(data));
   }, []);
 
   // Memoised request context — only recalculates when role changes
   const context: RequestContext = useMemo(
     () => ({
-      formContext: "edit",
-      user: { role, userId: "user-123", departmentId: "eng-001" },
+      formContext: 'edit',
+      user: { role, userId: 'user-123', departmentId: 'eng-001' },
     }),
     [role],
   );
@@ -43,10 +37,7 @@ export default function Home() {
   const fieldsByAccess = useFormPermissions(employeeFormSchema.fields, context);
 
   // All resolved fields for the FormRenderer
-  const resolvedFields = useMemo(
-    () => permissionResolver.resolveFields(employeeFormSchema.fields, context),
-    [context],
-  );
+  const resolvedFields = useMemo(() => permissionResolver.resolveFields(employeeFormSchema.fields, context), [context]);
 
   // Form submission with integrated toast notifications
   const { handleSubmit, isPending } = useFormSubmit({
@@ -75,12 +66,7 @@ export default function Home() {
                 {employeeFormSchema.description}
               </Text>
 
-              <FormRenderer
-                fields={resolvedFields}
-                initialData={formData}
-                onSubmit={handleSubmit}
-                isPending={isPending}
-              />
+              <FormRenderer fields={resolvedFields} initialData={formData} onSubmit={handleSubmit} isPending={isPending} />
             </Paper>
           </Grid.Col>
 
@@ -96,3 +82,4 @@ export default function Home() {
     </Container>
   );
 }
+

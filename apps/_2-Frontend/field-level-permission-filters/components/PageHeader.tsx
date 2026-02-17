@@ -1,7 +1,5 @@
-import { Group, Title, Text, Badge } from "@repo/ui-mantine";
-import { Shield, Lock } from "lucide-react";
-
-// ─── Component ─────────────────────────────────────────────────────────────────
+import { Group, Title, Text, Badge } from '@repo/ui-mantine';
+import { Shield, Lock } from 'lucide-react';
 
 export function PageHeader() {
   return (
@@ -15,24 +13,14 @@ export function PageHeader() {
         </Text>
       </div>
       <Group gap="xs">
-        <Badge
-          leftSection={<Shield size={13} />}
-          size="lg"
-          variant="light"
-          radius="sm"
-        >
+        <Badge leftSection={<Shield size={13} />} size="lg" variant="light" radius="sm">
           Schema-Driven
         </Badge>
-        <Badge
-          leftSection={<Lock size={13} />}
-          size="lg"
-          variant="light"
-          color="green"
-          radius="sm"
-        >
+        <Badge leftSection={<Lock size={13} />} size="lg" variant="light" color="green" radius="sm">
           Server-Filtered
         </Badge>
       </Group>
     </Group>
   );
 }
+
