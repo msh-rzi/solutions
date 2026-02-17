@@ -4,17 +4,17 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./provider": "./src/provider.tsx",
     "./fonts.css": "./src/fonts.css"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/i18n": "*",
     "@mantine/core": "^8.3.5",
     "@mantine/hooks": "^8.3.5",
+    "@mantine/notifications": "^8.3.5",
     "@phosphor-icons/react": "^2.1.10",
+    "@repo/i18n": "*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
