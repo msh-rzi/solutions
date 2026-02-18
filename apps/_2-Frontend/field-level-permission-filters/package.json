@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "bun --env-file=../../../.env ../../../scripts/next-with-global-port.ts dev PORT_FIELD_LEVEL_PERMISSION_FILTERS",
     "build": "next build",
-    "start": "next start",
+    "start": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts start PORT_FIELD_LEVEL_PERMISSION_FILTERS",
     "lint": "eslint"
   },
   "dependencies": {

@@ -1,0 +1,165 @@
+@reference '@repo/tailwind/styles.css';
+
+@layer components {
+  .datagrid-theme-quartz,
+  .ag-theme-quartz {
+    --dg-border-color: color-mix(in oklch, var(--border) 88%, var(--foreground) 8%);
+    --dg-header-bg: color-mix(in oklch, var(--muted) 85%, var(--background));
+    --dg-header-fg: color-mix(in oklch, var(--foreground) 85%, var(--muted-foreground));
+    --dg-row-bg: color-mix(in oklch, var(--background) 94%, var(--card));
+    --dg-row-alt-bg: color-mix(in oklch, var(--muted) 16%, var(--background));
+    --dg-row-hover-bg: color-mix(in oklch, var(--accent) 18%, var(--background));
+    --dg-footer-bg: color-mix(in oklch, var(--muted) 24%, var(--background));
+    --dg-detail-bg: color-mix(in oklch, var(--accent) 14%, var(--background));
+    --dg-chip-bg: color-mix(in oklch, var(--secondary) 75%, var(--background));
+    --dg-chip-fg: var(--secondary-foreground);
+    --dg-active-bg: color-mix(in oklch, var(--primary) 84%, var(--background));
+    --dg-active-fg: var(--primary-foreground);
+  }
+
+  .datagrid-wrapper {
+    @apply relative flex h-full min-h-0 min-w-0 w-full max-w-full flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm;
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-container {
+    @apply flex min-h-0 min-w-0 w-full max-w-full flex-1 flex-col overflow-auto overscroll-auto;
+    scrollbar-gutter: stable;
+  }
+
+  .datagrid-header-group {
+    @apply sticky top-0 z-20 border-b;
+    background-color: var(--dg-header-bg);
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-header-group,
+  .datagrid-body {
+    @apply min-w-min;
+  }
+
+  .datagrid-header-row,
+  .datagrid-row {
+    @apply flex w-max min-w-full;
+  }
+
+  .datagrid-header-cell,
+  .datagrid-cell {
+    @apply flex min-h-11 min-w-44 items-center gap-2 border-r px-4 py-2 text-sm whitespace-nowrap;
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-header-cell:last-child,
+  .datagrid-cell:last-child {
+    @apply border-r-0;
+  }
+
+  .datagrid-header-cell {
+    @apply text-xs font-semibold tracking-wide uppercase;
+    color: var(--dg-header-fg);
+  }
+
+  .datagrid-header-cell.sortable {
+    @apply cursor-pointer;
+  }
+
+  .datagrid-header-sort-button {
+    @apply inline-flex w-full items-center justify-between gap-2 text-left text-inherit;
+  }
+
+  .datagrid-header-sort-button:focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    --tw-ring-color: var(--ring);
+    --tw-ring-offset-color: var(--background);
+  }
+
+  .datagrid-row-wrapper {
+    background-color: var(--dg-row-bg);
+  }
+
+  .datagrid-row-wrapper:nth-child(even) {
+    background-color: var(--dg-row-alt-bg);
+  }
+
+  .datagrid-row-wrapper:hover {
+    background-color: var(--dg-row-hover-bg);
+  }
+
+  .datagrid-row {
+    @apply border-b transition-colors duration-150;
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-row-wrapper:last-child .datagrid-row {
+    @apply border-b-0;
+  }
+
+  .datagrid-body {
+    @apply min-h-0;
+  }
+
+  .datagrid-body-virtualized {
+    @apply relative;
+  }
+
+  .datagrid-virtual-row {
+    @apply absolute top-0 left-0 w-full;
+  }
+
+  .datagrid-row.has-detail {
+    @apply border-b-0;
+  }
+
+  .datagrid-row-detail {
+    @apply border-t px-4 py-3 text-sm;
+    background-color: var(--dg-detail-bg);
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-cell-chip {
+    @apply inline-flex items-center rounded-md px-2 py-1 text-xs font-medium;
+    background-color: var(--dg-chip-bg);
+    color: var(--dg-chip-fg);
+  }
+
+  .datagrid-pagination {
+    @apply flex flex-wrap items-center justify-end gap-1 border-t px-3 py-2;
+    background-color: var(--dg-footer-bg);
+    border-color: var(--dg-border-color);
+  }
+
+  .datagrid-page-button {
+    @apply inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm font-medium transition-colors duration-150;
+    border-color: var(--dg-border-color);
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  .datagrid-page-button svg {
+    @apply h-4 w-4;
+  }
+
+  .datagrid-page-button:hover:not(.disabled) {
+    background-color: var(--dg-row-hover-bg);
+  }
+
+  .datagrid-page-button.active {
+    border-color: var(--primary);
+    background-color: var(--dg-active-bg);
+    color: var(--dg-active-fg);
+  }
+
+  .datagrid-page-button.disabled {
+    @apply cursor-not-allowed opacity-45;
+  }
+
+  .datagrid-page-button:focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    --tw-ring-color: var(--ring);
+    --tw-ring-offset-color: var(--background);
+  }
+
+  .datagrid-loading-overlay {
+    @apply absolute inset-0 z-30 grid place-items-center bg-background/55 text-sm font-medium backdrop-blur-[1px];
+  }
+}
