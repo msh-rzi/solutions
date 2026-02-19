@@ -5,3 +5,38 @@
     @apply min-h-screen bg-background text-foreground;
   }
 }
+
+@layer components {
+  .dashboard-shell {
+    --dashboard-accent: #475b63;
+    transition:
+      box-shadow 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .dashboard-shell[data-surface='elevated'] {
+    @apply shadow-sm;
+  }
+
+  .dashboard-shell[data-surface='flat'] {
+    @apply shadow-none bg-background;
+  }
+
+  .dashboard-shell[data-surface='glass'] {
+    background-color: color-mix(in srgb, hsl(var(--card)) 78%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  .dashboard-shell .dashboard-panel {
+    transition:
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .dashboard-shell .dashboard-accent-chip {
+    border-color: color-mix(in srgb, var(--dashboard-accent) 35%, hsl(var(--border)));
+    color: var(--dashboard-accent);
+    background-color: color-mix(in srgb, var(--dashboard-accent) 10%, transparent);
+  }
+}

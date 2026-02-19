@@ -1,47 +1,24 @@
-import { Users, DollarSign, ShoppingCart, Activity } from 'lucide-react';
+'use client';
+
+import * as React from 'react';
+import type { DashboardDensity } from './useDashboardPreferences';
+import type { DashboardStat } from './mock-data';
 import Stat from './ui/Stat';
+import { cn } from '@repo/ui-shadcn';
 
-const stats = [
-  {
-    title: 'Total Revenue',
-    value: '$45,231',
-    change: '+20.1%',
-    trend: 'up',
-    description: 'vs. last month',
-    icon: DollarSign,
-  },
-  {
-    title: 'Active Users',
-    value: '2,350',
-    change: '+180',
-    trend: 'up',
-    description: 'new this week',
-    icon: Users,
-  },
-  {
-    title: 'Orders',
-    value: '1,247',
-    change: '-3.2%',
-    trend: 'down',
-    description: 'vs. last month',
-    icon: ShoppingCart,
-  },
-  {
-    title: 'Uptime',
-    value: '99.9%',
-    change: '0%',
-    trend: 'neutral',
-    description: 'last 30 days',
-    icon: Activity,
-  },
-] as const;
+interface StatsGridProps {
+  stats: readonly DashboardStat[];
+  density: DashboardDensity;
+  loading?: boolean;
+}
 
-export function StatsGrid() {
+export const StatsGrid = React.memo(function StatsGrid({ stats, density, loading = false }: StatsGridProps) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {stats.map((s) => (
-        <Stat key={s.title} {...s} />
+    <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', density === 'compact' && 'gap-3')}>
+      {stats.map((stat) => (
+        <Stat key={stat.title} {...stat} loading={loading} />
       ))}
     </div>
   );
-}
+});
+

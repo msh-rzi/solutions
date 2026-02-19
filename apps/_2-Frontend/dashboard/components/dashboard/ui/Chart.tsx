@@ -1,7 +1,7 @@
-import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, Line, LineChart, CartesianGrid, XAxis, YAxis, ChartConfig } from '@repo/ui-shadcn';
-import React from 'react';
+'use client';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+import * as React from 'react';
+import { CartesianGrid, ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, Line, LineChart, XAxis, YAxis } from '@repo/ui-shadcn';
 
 export type ChartDataKey = {
   key: string;
@@ -9,16 +9,14 @@ export type ChartDataKey = {
   color: string;
 };
 
-export interface FinancialChartProps {
-  data: Record<string, string | number>[];
+export interface FinancialChartProps<TData extends object = Record<string, string | number>> {
+  data: ReadonlyArray<TData>;
   xKey: string;
-  series: ChartDataKey[];
+  series: ReadonlyArray<ChartDataKey>;
   xTickFormatter?: (value: string) => string;
   yTickFormatter?: (value: number) => string;
-  tooltipLabelFormatter?: (value: string) => string;
-  /** Dot radius on data points — set to 0 to hide */
+  tooltipLabelFormatter?: (value: React.ReactNode) => React.ReactNode;
   dotRadius?: number;
-  /** Line stroke width */
   strokeWidth?: number;
   showYAxis?: boolean;
   showLegend?: boolean;
@@ -26,48 +24,52 @@ export interface FinancialChartProps {
   className?: string;
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
-const FinancialChart = ({
+const FinancialChart = <TData extends object>({
   data,
   xKey,
   series,
   xTickFormatter,
   yTickFormatter,
   tooltipLabelFormatter,
-  dotRadius = 3,
+  dotRadius = 2.8,
   strokeWidth = 2,
   showYAxis = true,
   showLegend = true,
   showGrid = true,
-  className = 'min-h-64 w-full',
-}: FinancialChartProps) => {
-  const chartConfig = series.reduce<ChartConfig>((acc, s) => {
-    acc[s.key] = { label: s.label, color: s.color };
-    return acc;
-  }, {});
+  className = 'min-h-72 w-full',
+}: FinancialChartProps<TData>) => {
+  const chartConfig = React.useMemo(
+    () =>
+      series.reduce<ChartConfig>((acc, currentSeries) => {
+        acc[currentSeries.key] = {
+          label: currentSeries.label,
+          color: currentSeries.color,
+        };
+
+        return acc;
+      }, {}),
+    [series],
+  );
 
   return (
     <ChartContainer config={chartConfig} className={className}>
-      <LineChart accessibilityLayer data={data}>
+      <LineChart accessibilityLayer data={data as any}>
         {showGrid && <CartesianGrid vertical={false} />}
 
         <XAxis dataKey={xKey} tickLine={false} tickMargin={10} axisLine={false} tickFormatter={xTickFormatter} />
-
         {showYAxis && <YAxis tickLine={false} axisLine={false} tickMargin={8} tickFormatter={yTickFormatter} width={yTickFormatter ? 64 : 40} />}
 
-        <ChartTooltip content={<ChartTooltipContent labelFormatter={tooltipLabelFormatter} labelClassName="w-32" />} />
-
+        <ChartTooltip content={<ChartTooltipContent labelFormatter={(label) => (tooltipLabelFormatter ? tooltipLabelFormatter(label) : label)} labelClassName="w-32" />} />
         {showLegend && <ChartLegend content={<ChartLegendContent />} />}
 
-        {series.map((s) => (
+        {series.map((currentSeries) => (
           <Line
-            key={s.key}
-            dataKey={s.key}
-            stroke={`var(--color-${s.key})`}
+            key={currentSeries.key}
+            dataKey={currentSeries.key}
+            stroke={`var(--color-${currentSeries.key})`}
             strokeWidth={strokeWidth}
-            dot={{ r: dotRadius, fill: `var(--color-${s.key})`, strokeWidth: 0 }}
-            activeDot={{ r: dotRadius + 2 }}
+            dot={{ r: dotRadius, fill: `var(--color-${currentSeries.key})`, strokeWidth: 0 }}
+            activeDot={{ r: dotRadius + 1.6 }}
             type="monotone"
           />
         ))}
@@ -76,4 +78,5 @@ const FinancialChart = ({
   );
 };
 
-export default FinancialChart;
+export default React.memo(FinancialChart);
+

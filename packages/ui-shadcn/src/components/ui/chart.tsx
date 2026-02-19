@@ -20,6 +20,25 @@ type ChartContextProps = {
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
+type ChartPayload = {
+  type?: string;
+  value?: number | string;
+  name?: string;
+  dataKey?: string | number;
+  color?: string;
+  payload?: Record<string, unknown> & {
+    fill?: string;
+  };
+};
+
+type ChartTooltipFormatter = (
+  value: number | string,
+  name: string,
+  item: ChartPayload,
+  index: number,
+  payload: ChartPayload['payload'],
+) => React.ReactNode;
+
 function useChart() {
   const context = React.useContext(ChartContext);
 
@@ -106,8 +125,14 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<'div'> & {
+  }: React.ComponentProps<'div'> & {
+    active?: boolean;
+    payload?: ChartPayload[];
+    label?: React.ReactNode;
+    labelFormatter?: (label: React.ReactNode, payload: ChartPayload[]) => React.ReactNode;
+    formatter?: ChartTooltipFormatter;
+    color?: string;
+    labelClassName?: string;
     hideLabel?: boolean;
     hideIndicator?: boolean;
     indicator?: 'line' | 'dot' | 'dashed';
@@ -152,11 +177,11 @@ function ChartTooltipContent({
           .map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || 'value'}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = color || item.payload.fill || item.color;
+            const indicatorColor = color || item.payload?.fill || item.color;
 
             return (
               <div
-                key={item.dataKey}
+                key={`${item.dataKey ?? item.name ?? index}-${index}`}
                 className={cn('[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5', indicator === 'dot' && 'items-center')}
               >
                 {formatter && item?.value !== undefined && item.name ? (
@@ -188,7 +213,9 @@ function ChartTooltipContent({
                         {nestLabel ? tooltipLabel : null}
                         <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
                       </div>
-                      {item.value && <span className="text-foreground font-mono font-medium tabular-nums">{item.value.toLocaleString()}</span>}
+                      {item.value !== undefined && item.value !== null && (
+                        <span className="text-foreground font-mono font-medium tabular-nums">{item.value.toLocaleString()}</span>
+                      )}
                     </div>
                   </>
                 )}
@@ -208,8 +235,9 @@ function ChartLegendContent({
   payload,
   verticalAlign = 'bottom',
   nameKey,
-}: React.ComponentProps<'div'> &
-  Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+}: React.ComponentProps<'div'> & {
+    payload?: ChartPayload[];
+    verticalAlign?: 'top' | 'bottom' | 'middle';
     hideIcon?: boolean;
     nameKey?: string;
   }) {
@@ -267,4 +295,3 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
 }
 
 export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle };
-
