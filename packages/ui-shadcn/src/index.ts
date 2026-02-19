@@ -13,9 +13,14 @@ export * from './components/ui/sidebar';
 export * from './components/ui/skeleton';
 export * from './components/ui/tooltip';
 export * from './components/ui/avatar';
+export * from './components/ui/card';
+export * from './components/ui/badge';
+export * from './components/ui/chart';
+export * from './components/ui/scroll-area';
 
 export * from './components/LanguageSwitcher';
 export * from './components/ToggleTheme';
 export * from './provider';
-export * from './utils';
 
+export * from './utils';
+export * from './recharts';
