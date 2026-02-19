@@ -1,12 +1,18 @@
 'use client';
 
-import { SyntheticEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { SyntheticEvent, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { authClient, DEMO_ACCOUNTS } from '../../../lib/auth-client';
 import { SignInResult } from './types';
 
 export function useLoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextPath = useMemo(() => {
+    const value = searchParams.get('next');
+    return value && value.startsWith('/') ? value : '/';
+  }, [searchParams]);
+
   const [email, setEmail] = useState(DEMO_ACCOUNTS[0]?.email ?? '');
   const [password, setPassword] = useState(DEMO_ACCOUNTS[0]?.password ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +36,7 @@ export function useLoginForm() {
         return;
       }
 
-      router.replace('/');
+      router.replace(nextPath);
       router.refresh();
     } catch {
       setErrorMessage('Unable to sign in right now.');
@@ -50,4 +56,3 @@ export function useLoginForm() {
     onSubmit,
   };
 }
-
