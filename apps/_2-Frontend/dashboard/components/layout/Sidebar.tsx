@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BarChart2, Bell, Bookmark, LayoutDashboard, LogOut, Settings as SettingsIcon, Users } from 'lucide-react';
+import { BarChart2, Bell, LayoutDashboard, LogOut, Settings as SettingsIcon, Users } from 'lucide-react';
 import {
   Avatar,
   AvatarFallback,
@@ -26,7 +26,6 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/' },
   { label: 'Analytics', icon: BarChart2, href: '/analytics' },
   { label: 'Users', icon: Users, href: '/users' },
-  { label: 'Bookmarks', icon: Bookmark, href: '/bookmarks' },
   { label: 'Notifications', icon: Bell, href: '/notifications' },
 ];
 
