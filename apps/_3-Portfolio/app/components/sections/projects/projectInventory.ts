@@ -14,6 +14,7 @@ type ProjectOverride = {
   category?: string;
   stack?: string[];
   order?: number;
+  appUrl?: string;
 };
 
 export type WorkspaceProject = {
@@ -24,6 +25,7 @@ export type WorkspaceProject = {
   category: string;
   path: string;
   stack: string[];
+  appUrl?: string;
 };
 
 type ProjectRecord = WorkspaceProject & {
@@ -82,6 +84,31 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Frontend',
     stack: ['Next.js', 'React', 'TanStack Form', 'Zod'],
     order: 5,
+  },
+};
+
+type AppLinkConfig = {
+  portEnvName: string;
+  defaultPort: number;
+  path?: string;
+};
+
+const PROJECT_LINKS: Record<string, AppLinkConfig> = {
+  'field-level-permission-filters': {
+    portEnvName: 'PORT_FIELD_LEVEL_PERMISSION_FILTERS',
+    defaultPort: 3011,
+  },
+  'data-grid': { portEnvName: 'PORT_DATA_GRID', defaultPort: 3012 },
+  dashboard: { portEnvName: 'PORT_DASHBOARD', defaultPort: 3013 },
+  'acid-transaction-system': {
+    portEnvName: 'PORT_ACID_TRANSACTION_SYSTEM',
+    defaultPort: 3020,
+    path: '/docs',
+  },
+  'query-optimization': {
+    portEnvName: 'PORT_QUERY_OPTIMIZATION',
+    defaultPort: 3021,
+    path: '/docs',
   },
 };
 
@@ -218,6 +245,24 @@ function resolveCategoryPriority(category: string): number {
   return CATEGORY_PRIORITY.Other;
 }
 
+function resolveProjectUrl(packageName: string): string | undefined {
+  const linkConfig = PROJECT_LINKS[packageName];
+  if (!linkConfig) {
+    return undefined;
+  }
+
+  const parsedPort = Number.parseInt(
+    process.env[linkConfig.portEnvName] ?? '',
+    10,
+  );
+  const port = Number.isNaN(parsedPort) ? linkConfig.defaultPort : parsedPort;
+  const protocol = process.env.APP_LINK_PROTOCOL ?? 'http';
+  const host = process.env.APP_LINK_HOST ?? 'localhost';
+  const pathSuffix = linkConfig.path ?? '';
+
+  return `${protocol}://${host}:${port}${pathSuffix}`;
+}
+
 async function readProjectFromDirectory(
   workspaceRoot: string,
   categoryDirectoryName: string,
@@ -244,6 +289,7 @@ async function readProjectFromDirectory(
     category,
     path: toPosixPath(path.relative(workspaceRoot, projectDirectoryPath)),
     stack,
+    appUrl: override?.appUrl ?? resolveProjectUrl(manifest.name),
     order: override?.order ?? 99,
     categoryPriority,
   };
@@ -318,6 +364,7 @@ export async function getWorkspaceProjects(): Promise<WorkspaceProject[]> {
         category: project.category,
         path: project.path,
         stack: project.stack,
+        appUrl: project.appUrl,
       }));
   } catch {
     return [];

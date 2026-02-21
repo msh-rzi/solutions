@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
     envDir: workspaceRoot,
     plugins: [react(), tailwindcss()],
     server: {
+      host: env.APP_HOST || '0.0.0.0',
       port: Number.parseInt(env.PORT_DATA_GRID || '3050', 10),
     },
   };
