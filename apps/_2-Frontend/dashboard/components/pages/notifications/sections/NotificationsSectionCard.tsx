@@ -1,0 +1,24 @@
+import React from 'react';
+
+type NotificationsSectionCardProps = {
+  title: string;
+  instruction: string;
+  className?: string;
+  children: React.ReactNode;
+};
+
+export function NotificationsSectionCard({
+  title,
+  instruction,
+  className,
+  children,
+}: NotificationsSectionCardProps) {
+  return (
+    <article className={`rounded-lg border bg-card p-4 ${className ?? ''}`}>
+      <p className="text-xs uppercase tracking-wide text-muted-foreground">{title}</p>
+      <p className="mt-1 text-xs text-muted-foreground">{instruction}</p>
+      <div className="mt-4 space-y-2">{children}</div>
+    </article>
+  );
+}
+
