@@ -17,8 +17,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "bun --env-file=../../../.env dist/main.js",
     "lint": "eslint \"src/**/*.ts\"",
-    "drizzle:generate": "drizzle-kit generate",
-    "drizzle:migrate": "drizzle-kit migrate",
+    "drizzle:generate": "bun --env-file=../../../.env x drizzle-kit generate",
+    "drizzle:migrate": "bun --env-file=../../../.env x drizzle-kit migrate",
     "bun:drizzle:migrate": "bun run drizzle:generate && bun run drizzle:migrate"
   },
   "dependencies": {
