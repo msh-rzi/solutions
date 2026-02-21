@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website
 
-## Getting Started
+## Project
 
-First, run the development server:
+This project is my personal portfolio built in Next.js, designed to present my technical profile and real workspace projects for resume use.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Problem
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Static portfolios become outdated quickly and usually disconnect from real project work. I wanted a portfolio that stays aligned with the actual codebase.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How I Solved It
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Built the site as modular sections (hero, about, skills, projects, contact, expertise).
+- Added dictionary-based localization support via shared `@repo/i18n` packages.
+- Implemented dynamic project discovery for the Projects section:
+  - scans workspace app packages
+  - applies curated metadata overrides
+  - infers category and stack
+- Added a dedicated expertise page and reusable layout/navigation components.
+- Reused shared UI packages to keep styles/components consistent across the monorepo.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Mantine UI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run Locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Install dependencies from the repo root:
+   - `bun install`
+2. Set root `.env`:
+   - `PORT_PORTFOLIO`
+3. Start app:
+   - `bun run --filter=portfolio dev`

@@ -1,4 +1,4 @@
-import { About, Contact, Footer, Header, Hero, Skills } from '../../components';
+import { About, Contact, Footer, Header, Hero, Projects, Skills } from '../../components';
 
 export function HomePage() {
   return (
@@ -9,6 +9,7 @@ export function HomePage() {
         <Hero />
         <About />
         <Skills />
+        <Projects />
         <Contact />
       </main>
 

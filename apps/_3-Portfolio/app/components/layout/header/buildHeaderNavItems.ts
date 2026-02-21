@@ -6,6 +6,7 @@ export function buildHeaderNavItems(t: PortfolioDictionary): HeaderNavItem[] {
     { href: '/', label: t.nav.home },
     { href: '/#about', label: t.nav.about },
     { href: '/#skills', label: t.nav.skills },
+    { href: '/#projects', label: t.nav.projects },
     { href: '/expertise', label: t.nav.expertise },
     { href: '/#contact', label: t.nav.contact },
   ];

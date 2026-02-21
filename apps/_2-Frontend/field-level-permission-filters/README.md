@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Field-Level Permission Filters
 
-## Getting Started
+## Project
 
-First, run the development server:
+This project is a schema-driven form system that enforces field-level RBAC on both the UI and server side.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Problem
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Most form authorization implementations only hide fields in the frontend. That is not secure, because users can still submit blocked fields directly.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How I Solved It
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Defined form structure, visibility, permissions, sanitization, transforms, and validation in one typed schema.
+- Built a permission resolver that computes each field state by request context:
+  - `editable`
+  - `readonly`
+  - `hidden`
+- Implemented server-side input filtering that:
+  - rejects unauthorized/readonly field writes
+  - validates allowed fields with Zod
+  - returns rejected fields and validation errors
+- Used TanStack Form to render dynamic fields and map server validation back into field state.
+- Added role switching (`employee`, `manager`, `admin`) to demonstrate live access resolution.
+- Added user feedback with toast notifications for success, validation failures, and RBAC-blocked fields.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js
+- React
+- TypeScript
+- TanStack Form
+- Zod
+- Mantine UI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run Locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Install dependencies from the repo root:
+   - `bun install`
+2. Set root `.env`:
+   - `PORT_FIELD_LEVEL_PERMISSION_FILTERS`
+3. Start app:
+   - `bun run --filter=field-level-permission-filters dev`

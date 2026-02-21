@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# High-Volume Data Grid
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project
 
-Currently, two official plugins are available:
+This project is a React + Vite data-grid playground for large datasets (up to 100,000 rows) with configurable runtime behavior.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Problem
 
-## React Compiler
+Large tables can become slow and hard to use when sorting, filtering, and expanding rows, especially when rendering everything at once.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## How I Solved It
 
-## Expanding the ESLint configuration
+- Built a reusable `DataGrid` on top of TanStack Table.
+- Added two runtime modes:
+  - paginated mode
+  - virtualized mode (TanStack Virtual)
+- Implemented progressive virtual loading when the user nears the end of the scroll area.
+- Added feature toggles for sorting, filtering, and virtualization.
+- Added debounced global search to avoid expensive filtering on every keypress.
+- Added master-detail row expansion with nested grid rendering.
+- Centralized grid state in Zustand (row count, column count, page size, feature flags, search query).
+- Added smooth loading state timing to reduce UI flicker during transitions.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React
+- TypeScript
+- Vite
+- TanStack Table
+- TanStack Virtual
+- Zustand
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Run Locally
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Install dependencies from the repo root:
+   - `bun install`
+2. Start app:
+   - `bun run --filter=data-grid dev`
