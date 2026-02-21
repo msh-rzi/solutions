@@ -1,6 +1,13 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "PORT",
+    "PORT_QUERY_OPTIMIZATION",
+    "DATABASE_URL_QUERY_OPTIMIZATION",
+    "DATABASE_URL_QUERY_OPTIMIZATION_TEST",
+    "RUN_QUERY_OPTIMIZATION_INTEGRATION_TESTS"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
