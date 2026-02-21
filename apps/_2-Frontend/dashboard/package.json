@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "bun --env-file=../../../.env ../../../scripts/next-with-global-port.ts dev PORT_DASHBOARD",
     "build": "next build",
-    "start": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts start PORT_DASHBOARD",
+    "start": "bun --env-file=../../../.env ../../../scripts/next-with-global-port.ts start PORT_DASHBOARD",
     "lint": "eslint",
     "check-types": "next typegen && tsc --noEmit"
   },
