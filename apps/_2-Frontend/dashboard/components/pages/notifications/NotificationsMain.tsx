@@ -21,7 +21,7 @@ export default function NotificationsMain() {
     <section className="h-full flex-1 overflow-auto rounded-xl border bg-card p-6">
       <h1 className="text-2xl font-semibold tracking-tight">Notifications</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Skeleton notification center. Every card includes what to implement in that section.
+        Single-layout notification operations center for triage, escalation, delivery, and audit.
       </p>
 
       <TenantScopeCard organizationName={demoSession?.organization?.name} />

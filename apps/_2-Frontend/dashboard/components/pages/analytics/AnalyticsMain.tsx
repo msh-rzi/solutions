@@ -21,7 +21,7 @@ export default function AnalyticsMain() {
     <section className="h-full flex-1 overflow-auto rounded-xl border bg-card p-6">
       <h1 className="text-2xl font-semibold tracking-tight">Analytics</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Skeleton analytics workspace. Every card includes what to implement in that section.
+        Single-layout analytics workspace with conversion, attribution, cohort, and anomaly insights.
       </p>
 
       <ScopeCard organizationName={demoSession?.organization?.name} />

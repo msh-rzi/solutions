@@ -8,9 +8,8 @@ export function TenantScopeCard({ organizationName }: TenantScopeCardProps) {
       <p className="text-xs uppercase tracking-wide text-muted-foreground">Tenant Scope</p>
       <p className="mt-2 text-sm font-medium">{organizationName ?? '-'}</p>
       <p className="text-xs text-muted-foreground">
-        Implement organization-scoped notification channels and delivery policies here.
+        Notification policies, subscriptions, and escalation ownership are scoped to this organization.
       </p>
     </div>
   );
 }
-
