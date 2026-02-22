@@ -23,13 +23,13 @@ require_env "DATABASE_URL_QUERY_OPTIMIZATION" "required for Prisma migration and
 log "running Drizzle migrations (acid-transaction-system)"
 (
   cd /app/apps/_1-Backend/acid-transaction-system
-  bun x drizzle-kit migrate --config drizzle.config.ts
+  bun run drizzle:migrate
 )
 
 log "running Prisma migrations (query-optimization)"
 (
   cd /app/apps/_1-Backend/query-optimization
-  bun x prisma migrate deploy --schema prisma/schema.prisma
+  bun run prisma:migrate:deploy
 )
 
 log "migrations completed, starting all applications"

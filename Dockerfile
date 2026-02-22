@@ -44,13 +44,14 @@ COPY . .
 # These are not copied to the final image.
 ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/acid_transaction_system \
     DATABASE_URL_QUERY_OPTIMIZATION=postgresql://postgres:postgres@localhost:5432/query_optimization \
-    NEXT_TELEMETRY_DISABLED=1
+    NEXT_TELEMETRY_DISABLED=1 \
+    TURBO_TELEMETRY_DISABLED=1
 
 # Required build step 1: Prisma client generation.
-RUN bun x prisma generate --schema apps/_1-Backend/query-optimization/prisma/schema.prisma
+RUN bun run --filter=query-optimization prisma:generate
 
 # Required build step 2: Drizzle artifacts generation.
-RUN bun x drizzle-kit generate --config apps/_1-Backend/acid-transaction-system/drizzle.config.ts
+RUN bun run --filter=acid-transaction-system drizzle:generate
 
 # Required build step 3: Monorepo production build.
 RUN --mount=type=cache,target=/root/.bun/install/cache \
@@ -67,6 +68,7 @@ WORKDIR /app
 # Production-safe defaults only (no secrets baked into image).
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
+    TURBO_TELEMETRY_DISABLED=1 \
     APP_HOST=0.0.0.0 \
     APP_LINK_PROTOCOL=http \
     APP_LINK_HOST=localhost \
