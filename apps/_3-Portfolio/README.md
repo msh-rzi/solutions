@@ -1,23 +1,42 @@
 # Portfolio Website
 
-## Project
+Next.js portfolio app that renders modular profile sections and reads project inventory directly from the monorepo.
 
-This project is my personal portfolio built in Next.js, designed to present my technical profile and real workspace projects for resume use.
+## Problem Addressed in This Codebase
 
-## Problem
+The portfolio includes a projects section that is generated from workspace files instead of being hardcoded.
 
-Static portfolios become outdated quickly and usually disconnect from real project work. I wanted a portfolio that stays aligned with the actual codebase.
+## What Exists in the Code
 
-## How I Solved It
+- Home page sections are composed in `app/features/home/HomePage.tsx`:
+  - Header
+  - Hero
+  - About
+  - Skills
+  - Projects
+  - Contact
+  - Footer
+- Expertise page exists at `app/expertise/page.tsx`.
+- Localization:
+  - dictionary utilities from `@repo/i18n`
+  - portfolio dictionaries for English, Persian, and German
+- Project inventory generation in `app/components/sections/projects/projectInventory.ts`:
+  - scans `apps` directories from resolved workspace root
+  - skips `.next`, `.turbo`, `dist`, `node_modules`
+  - reads each `package.json`
+  - applies project metadata overrides for key apps
+  - infers stack labels from dependencies
+  - builds app links from env-based port mapping
+  - sorts by configured order/category/title
+- Projects section server component (`Projects.tsx`) renders cards from `getWorkspaceProjects()` and links when `appUrl` exists.
+- Shared monorepo packages are used for UI and i18n.
 
-- Built the site as modular sections (hero, about, skills, projects, contact, expertise).
-- Added dictionary-based localization support via shared `@repo/i18n` packages.
-- Implemented dynamic project discovery for the Projects section:
-  - scans workspace app packages
-  - applies curated metadata overrides
-  - infers category and stack
-- Added a dedicated expertise page and reusable layout/navigation components.
-- Reused shared UI packages to keep styles/components consistent across the monorepo.
+## Potential Improvements
+
+- Add tests for project inventory scanning and locale dictionary integrity.
+- Add caching or build-time generation if filesystem scanning cost grows.
+- Add content/source validation in CI to catch stale overrides automatically.
+- Add fallback strategy for environments where runtime filesystem scanning is restricted.
 
 ## Tech Stack
 
@@ -25,14 +44,15 @@ Static portfolios become outdated quickly and usually disconnect from real proje
 - React
 - TypeScript
 - Tailwind CSS
-- shadcn/ui
-- Mantine UI
+- `@repo/ui-shadcn`
+- `@repo/ui-mantine`
+- `@repo/i18n`
+- Bun
 
 ## Run Locally
 
-1. Install dependencies from the repo root:
-   - `bun install`
-2. Set root `.env`:
+1. From repo root: `bun install`
+2. Configure root `.env`:
    - `PORT_PORTFOLIO`
 3. Start app:
    - `bun run --filter=portfolio dev`

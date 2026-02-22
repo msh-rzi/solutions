@@ -1,25 +1,45 @@
 # High-Volume Data Grid
 
-## Project
+React + Vite data-grid playground with configurable scale, virtualization, filtering, sorting, and master-detail rows.
 
-This project is a React + Vite data-grid playground for large datasets (up to 100,000 rows) with configurable runtime behavior.
+## Problem Addressed in This Codebase
 
-## Problem
+Large table rendering becomes expensive without viewport-based rendering and state controls.
 
-Large tables can become slow and hard to use when sorting, filtering, and expanding rows, especially when rendering everything at once.
+## What Exists in the Code
 
-## How I Solved It
+- Reusable `DataGrid` component built with TanStack Table.
+- Two runtime modes:
+  - paginated mode (`getPaginationRowModel`)
+  - virtualized mode (`@tanstack/react-virtual`)
+- Progressive virtual loading in `useVirtualRowsController.ts`:
+  - initial virtual load: 1200 rows
+  - load increment: 2000 rows
+- Scroll end detection in `useVirtualEndReach.ts` with 220px threshold.
+- Configurable dataset limits in Zustand store:
+  - max rows: 100,000
+  - max columns: 22
+  - predefined size presets
+- Feature toggles in store:
+  - virtualization
+  - sortable
+  - filterable
+- Debounced search input:
+  - `useDebouncedValue` hook
+  - 180ms apply delay in `SearchField.tsx`
+- Smooth loading visibility control in `useSmoothLoading.ts`:
+  - show delay and minimum visible duration
+- Master-detail expansion:
+  - expandable rows enabled in table
+  - nested `MasterDetailGrid` renderer in row detail panel
+- Data generation is local in `useDataGridData.tsx` (no backend fetch in current app).
 
-- Built a reusable `DataGrid` on top of TanStack Table.
-- Added two runtime modes:
-  - paginated mode
-  - virtualized mode (TanStack Virtual)
-- Implemented progressive virtual loading when the user nears the end of the scroll area.
-- Added feature toggles for sorting, filtering, and virtualization.
-- Added debounced global search to avoid expensive filtering on every keypress.
-- Added master-detail row expansion with nested grid rendering.
-- Centralized grid state in Zustand (row count, column count, page size, feature flags, search query).
-- Added smooth loading state timing to reduce UI flicker during transitions.
+## Potential Improvements
+
+- Add server-backed data source with server-side pagination/filtering/sorting.
+- Add automated performance benchmarks and UI tests.
+- Add keyboard-navigation and screen-reader audits for accessibility.
+- Add telemetry for interaction timing and render cost.
 
 ## Tech Stack
 
@@ -29,10 +49,11 @@ Large tables can become slow and hard to use when sorting, filtering, and expand
 - TanStack Table
 - TanStack Virtual
 - Zustand
+- Tailwind CSS
+- Bun
 
 ## Run Locally
 
-1. Install dependencies from the repo root:
-   - `bun install`
+1. From repo root: `bun install`
 2. Start app:
    - `bun run --filter=data-grid dev`

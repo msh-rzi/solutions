@@ -1,47 +1,61 @@
 # Multi-Tenant Dashboard
 
-## Project
+Next.js dashboard prototype with tenant-aware demo sessions, protected routes, and organization switching.
 
-This project is a Next.js dashboard prototype for enterprise operations across analytics, users, and notifications workflows.
+## Problem Addressed in This Codebase
 
-## Problem
+The app demonstrates how tenant context and route protection can be handled in a dashboard flow using in-repo demo auth data.
 
-Enterprise dashboards usually need multi-tenant context, protected routes, and configurable workspaces. Generic UI demos often skip these concerns.
+## What Exists in the Code
 
-## How I Solved It
+- Route guard in `proxy.ts`:
+  - allows `/login` and `/api/auth/*`
+  - redirects unauthenticated users to `/login`
+  - redirects authenticated users away from `/login`
+- Auth API handlers in `app/api/auth/[...all]/route.ts`:
+  - `POST /api/auth/sign-in/email`
+  - `GET /api/auth/get-session`
+  - `POST /api/auth/switch-organization`
+  - `POST /api/auth/sign-out`
+- Session model in `lib/auth-session.ts`:
+  - demo users and organizations are in memory constants
+  - token is signed with HMAC SHA-256 via Web Crypto
+  - session is stored in HTTP-only cookie (`dashboard.demo-auth-session.v2`)
+  - token includes active organization and expiration
+  - organization switch validates membership before re-issuing token
+- UI pages present in app router:
+  - dashboard (`/`)
+  - analytics (`/analytics`)
+  - users (`/users`)
+  - notifications (`/notifications`)
+- Sidebar includes organization switcher and sign-out action.
+- Login page includes two demo accounts:
+  - `ava@acme.com` / `acme1234`
+  - `noah@globex.com` / `globex1234`
+- Dashboard preferences are persisted in localStorage via `useDashboardPreferences.ts`.
 
-- Built a memory-backed auth flow using `better-auth` with signed session tokens in HTTP-only cookies.
-- Implemented route protection using `proxy.ts`:
-  - unauthenticated users are redirected to `/login`
-  - authenticated users are redirected away from `/login`
-- Added tenant/org switching in the sidebar with secure server-side token re-issue.
-- Implemented dedicated pages for:
-  - Dashboard
-  - Analytics
-  - Users
-  - Notifications
-- Added a settings system with local persistence for layout and dashboard preferences.
-- Organized the UI into reusable section components and chart-driven cards for realistic enterprise screens.
+## Potential Improvements
 
-## Demo Accounts
-
-- `ava@acme.com` / `acme1234`
-- `noah@globex.com` / `globex1234`
+- Replace demo in-memory accounts with persistent user/session storage.
+- Replace plain demo passwords with a real credential flow and password hashing.
+- Add automated tests for middleware, auth endpoints, and tenant-switch behavior.
+- Add centralized audit logs for sign-in, sign-out, and organization switch events.
+- Add CSRF mitigation strategy for auth state-changing endpoints.
 
 ## Tech Stack
 
 - Next.js
 - React
 - TypeScript
-- better-auth
+- better-auth (client integration)
 - Tailwind CSS
 - shadcn/ui
+- Bun
 
 ## Run Locally
 
-1. Install dependencies from the repo root:
-   - `bun install`
-2. Set root `.env`:
+1. From repo root: `bun install`
+2. Configure root `.env`:
    - `PORT_DASHBOARD`
    - optional: `AUTH_SECRET`
 3. Start app:
