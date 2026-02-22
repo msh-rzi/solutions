@@ -7,3 +7,10 @@ node_modules
 **/dist
 **/coverage
 **/*.log
+
+# Never send local environment files into Docker build context.
+.env
+.env.*
+**/.env
+**/.env.*
+
