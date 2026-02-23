@@ -54,7 +54,7 @@ UI-only field hiding is not enough for authorization. Submitted payloads can sti
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Configure root `.env`:
+2. Create `apps/_2-Frontend/field-level-permission-filters/.env` from `apps/_2-Frontend/field-level-permission-filters/.env.example` and configure:
    - `PORT_FIELD_LEVEL_PERMISSION_FILTERS`
 3. Start app:
    - `bun run --filter=field-level-permission-filters dev`

@@ -55,5 +55,6 @@ Large table rendering becomes expensive without viewport-based rendering and sta
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Start app:
+2. Optional: create `apps/_2-Frontend/data-grid/.env` from `apps/_2-Frontend/data-grid/.env.example` to override host/port.
+3. Start app:
    - `bun run --filter=data-grid dev`

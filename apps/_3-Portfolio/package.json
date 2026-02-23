@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts dev PORT_PORTFOLIO",
+    "dev": "bun --env-file=.env exec 'next dev --hostname localhost --port $PORT_PORTFOLIO'",
     "build": "next build",
-    "start": "bun --env-file=../../.env ../../scripts/next-with-global-port.ts start PORT_PORTFOLIO",
+    "start": "bun --env-file=.env exec 'next start --hostname localhost --port $PORT_PORTFOLIO'",
     "lint": "eslint",
     "check-types": "next typegen && tsc --noEmit"
   },

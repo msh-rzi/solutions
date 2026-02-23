@@ -36,7 +36,13 @@ Swagger docs are enabled for both backend services at `/docs`.
 bun install
 ```
 
-2. Ensure PostgreSQL is available and your root `.env` is configured.
+2. Ensure PostgreSQL is available, then configure local `.env` files for each app you plan to run by copying each app's `.env.example`:
+   - `apps/_3-Portfolio/.env.example`
+   - `apps/_2-Frontend/field-level-permission-filters/.env.example`
+   - `apps/_2-Frontend/data-grid/.env.example`
+   - `apps/_2-Frontend/dashboard/.env.example`
+   - `apps/_1-Backend/acid-transaction-system/.env.example`
+   - `apps/_1-Backend/query-optimization/.env.example`
 
 3. Start all apps:
 
@@ -55,28 +61,16 @@ bun run dev
 
 ## Docker Usage
 
-This repository includes a root `Dockerfile` that starts all apps in one container image, each on a dedicated port.
+Each app now has its own `Dockerfile` in its app directory.
+Use the root `docker-compose.yml` as the global runner for all app Dockerfiles.
 
-1. Build image:
-
-```bash
-docker build -t solutions-all .
-```
-
-2. Run container:
+1. Build and run all services:
 
 ```bash
-docker run --rm \
-  -p 3010:3010 \
-  -p 3011:3011 \
-  -p 3012:3012 \
-  -p 3013:3013 \
-  -p 3020:3020 \
-  -p 3021:3021 \
-  solutions-all
+docker compose up --build
 ```
 
-3. Open:
+2. Open:
 
 - Portfolio: `http://localhost:3010`
 - Field-level app: `http://localhost:3011`
@@ -85,7 +79,9 @@ docker run --rm \
 - ACID Swagger: `http://localhost:3020/docs`
 - Query Optimization Swagger: `http://localhost:3021/docs`
 
-The container defaults to `host.docker.internal` for database host access. If your Docker environment cannot resolve it, override `DATABASE_URL` and `DATABASE_URL_QUERY_OPTIMIZATION` at `docker run` time.
+Database service URLs default to `host.docker.internal`.
+Override `DATABASE_URL`, `DATABASE_URL_QUERY_OPTIMIZATION`, and related env vars in your shell before running `docker compose up --build` if needed.
+If your database password contains special characters (for example `@`), URL-encode it in the connection string (for example `%40`).
 
 ## Workspace Commands
 
@@ -96,4 +92,4 @@ The container defaults to `host.docker.internal` for database host access. If yo
 
 ## Verification Note
 
-Docker CLI is not installed in this execution environment, so Docker build/run commands are documented but were not executed here.
+`docker compose config` was validated in this environment. Full image builds/runs were not executed in this session.

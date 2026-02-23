@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "bun --env-file=../../../.env ../../../scripts/next-with-global-port.ts dev PORT_DASHBOARD",
+    "dev": "bun --env-file=.env exec 'next dev --hostname localhost --port $PORT_DASHBOARD'",
     "build": "next build",
-    "start": "bun --env-file=../../../.env ../../../scripts/next-with-global-port.ts start PORT_DASHBOARD",
+    "start": "bun --env-file=.env exec 'next start --hostname localhost --port $PORT_DASHBOARD'",
     "lint": "eslint",
     "check-types": "next typegen && tsc --noEmit"
   },

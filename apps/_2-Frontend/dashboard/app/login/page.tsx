@@ -1,11 +1,20 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Button, Input, Label } from '@repo/ui-shadcn';
 import { DemoAccounts } from '../../components/pages/login/DemoAccounts';
 import { useLoginForm } from '../../components/pages/login/useLoginForm';
 import { useRedirectIfAuthenticated } from '../../components/pages/login/useRedirectIfAuthenticated';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   useRedirectIfAuthenticated();
 
   const { email, setEmail, password, setPassword, isSubmitting, errorMessage, selectDemoAccount, onSubmit } = useLoginForm();

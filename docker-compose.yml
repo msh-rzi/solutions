@@ -1,0 +1,87 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: apps/_3-Portfolio/Dockerfile
+    env_file:
+      - apps/_3-Portfolio/.env
+    ports:
+      - "3010:3010"
+    environment:
+      PORT_PORTFOLIO: "3010"
+      APP_LINK_PROTOCOL: "http"
+      APP_LINK_HOST: "localhost"
+      PORT_FIELD_LEVEL_PERMISSION_FILTERS: "3011"
+      PORT_DATA_GRID: "3012"
+      PORT_DASHBOARD: "3013"
+      PORT_ACID_TRANSACTION_SYSTEM: "3020"
+      PORT_QUERY_OPTIMIZATION: "3021"
+    depends_on:
+      - field-level-permission-filters
+      - data-grid
+      - dashboard
+      - acid-transaction-system
+      - query-optimization
+
+  field-level-permission-filters:
+    build:
+      context: .
+      dockerfile: apps/_2-Frontend/field-level-permission-filters/Dockerfile
+    env_file:
+      - apps/_2-Frontend/field-level-permission-filters/.env
+    ports:
+      - "3011:3011"
+    environment:
+      PORT_FIELD_LEVEL_PERMISSION_FILTERS: "3011"
+
+  data-grid:
+    build:
+      context: .
+      dockerfile: apps/_2-Frontend/data-grid/Dockerfile
+    ports:
+      - "3012:80"
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/_2-Frontend/dashboard/Dockerfile
+    env_file:
+      - apps/_2-Frontend/dashboard/.env
+    ports:
+      - "3013:3013"
+    environment:
+      PORT_DASHBOARD: "3013"
+      AUTH_SECRET: ${AUTH_SECRET:-change-me-please}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-please}
+
+  acid-transaction-system:
+    build:
+      context: .
+      dockerfile: apps/_1-Backend/acid-transaction-system/Dockerfile
+    env_file:
+      - apps/_1-Backend/acid-transaction-system/.env
+    ports:
+      - "3020:3020"
+    environment:
+      APP_HOST: "0.0.0.0"
+      PORT_ACID_TRANSACTION_SYSTEM: "3020"
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:5432/acid-transaction-system}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  query-optimization:
+    build:
+      context: .
+      dockerfile: apps/_1-Backend/query-optimization/Dockerfile
+    env_file:
+      - apps/_1-Backend/query-optimization/.env
+    ports:
+      - "3021:3021"
+    environment:
+      APP_HOST: "0.0.0.0"
+      PORT_QUERY_OPTIMIZATION: "3021"
+      DATABASE_URL_QUERY_OPTIMIZATION: ${DATABASE_URL_QUERY_OPTIMIZATION:-postgresql://postgres:postgres@host.docker.internal:5432/query_optimization}
+      DATABASE_URL_QUERY_OPTIMIZATION_TEST: ${DATABASE_URL_QUERY_OPTIMIZATION_TEST:-postgresql://postgres:postgres@host.docker.internal:5432/query_optimization_test}
+      RUN_QUERY_OPTIMIZATION_INTEGRATION_TESTS: ${RUN_QUERY_OPTIMIZATION_INTEGRATION_TESTS:-false}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

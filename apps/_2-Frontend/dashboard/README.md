@@ -55,7 +55,7 @@ The app demonstrates how tenant context and route protection can be handled in a
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Configure root `.env`:
+2. Create `apps/_2-Frontend/dashboard/.env` from `apps/_2-Frontend/dashboard/.env.example` and configure:
    - `PORT_DASHBOARD`
    - optional: `AUTH_SECRET`
 3. Start app:

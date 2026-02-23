@@ -52,7 +52,7 @@ The portfolio includes a projects section that is generated from workspace files
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Configure root `.env`:
+2. Create `apps/_3-Portfolio/.env` from `apps/_3-Portfolio/.env.example` and configure:
    - `PORT_PORTFOLIO`
 3. Start app:
    - `bun run --filter=portfolio dev`

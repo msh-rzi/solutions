@@ -10,7 +10,7 @@ async function bootstrap() {
     10,
   );
   const port = Number.isNaN(parsedPort) ? 3000 : parsedPort;
-  const host = process.env.APP_HOST ?? '0.0.0.0';
+  const host = process.env.APP_HOST ?? 'localhost';
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('ACID Transaction System API')
