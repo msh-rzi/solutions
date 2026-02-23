@@ -6,7 +6,7 @@ services:
     env_file:
       - apps/_3-Portfolio/.env
     ports:
-      - "80:3010"
+      - "3010:3010"
     environment:
       PORT_PORTFOLIO: "3010"
       APP_LINK_PROTOCOL: "http"
