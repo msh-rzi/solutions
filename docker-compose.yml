@@ -1,5 +1,17 @@
+x-service-defaults: &service-defaults
+  init: true
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
 services:
   portfolio:
+    <<: *service-defaults
+    mem_limit: ${PORTFOLIO_MEM_LIMIT:-450m}
+    cpus: "${PORTFOLIO_CPUS:-0.60}"
     build:
       context: .
       dockerfile: apps/_3-Portfolio/Dockerfile
@@ -16,14 +28,10 @@ services:
       PORT_DASHBOARD: "3013"
       PORT_ACID_TRANSACTION_SYSTEM: "3020"
       PORT_QUERY_OPTIMIZATION: "3021"
-    depends_on:
-      - field-level-permission-filters
-      - data-grid
-      - dashboard
-      - acid-transaction-system
-      - query-optimization
-
   field-level-permission-filters:
+    <<: *service-defaults
+    mem_limit: ${FLP_MEM_LIMIT:-320m}
+    cpus: "${FLP_CPUS:-0.45}"
     build:
       context: .
       dockerfile: apps/_2-Frontend/field-level-permission-filters/Dockerfile
@@ -35,6 +43,9 @@ services:
       PORT_FIELD_LEVEL_PERMISSION_FILTERS: "3011"
 
   data-grid:
+    <<: *service-defaults
+    mem_limit: ${DATA_GRID_MEM_LIMIT:-128m}
+    cpus: "${DATA_GRID_CPUS:-0.20}"
     build:
       context: .
       dockerfile: apps/_2-Frontend/data-grid/Dockerfile
@@ -42,6 +53,9 @@ services:
       - "3012:80"
 
   dashboard:
+    <<: *service-defaults
+    mem_limit: ${DASHBOARD_MEM_LIMIT:-420m}
+    cpus: "${DASHBOARD_CPUS:-0.50}"
     build:
       context: .
       dockerfile: apps/_2-Frontend/dashboard/Dockerfile
@@ -55,6 +69,9 @@ services:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-please}
 
   acid-transaction-system:
+    <<: *service-defaults
+    mem_limit: ${ATS_MEM_LIMIT:-256m}
+    cpus: "${ATS_CPUS:-0.30}"
     build:
       context: .
       dockerfile: apps/_1-Backend/acid-transaction-system/Dockerfile
@@ -65,11 +82,13 @@ services:
     environment:
       APP_HOST: "0.0.0.0"
       PORT_ACID_TRANSACTION_SYSTEM: "3020"
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:5432/acid-transaction-system}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
   query-optimization:
+    <<: *service-defaults
+    mem_limit: ${QO_MEM_LIMIT:-256m}
+    cpus: "${QO_CPUS:-0.30}"
     build:
       context: .
       dockerfile: apps/_1-Backend/query-optimization/Dockerfile
@@ -80,8 +99,5 @@ services:
     environment:
       APP_HOST: "0.0.0.0"
       PORT_QUERY_OPTIMIZATION: "3021"
-      DATABASE_URL_QUERY_OPTIMIZATION: ${DATABASE_URL_QUERY_OPTIMIZATION:-postgresql://postgres:postgres@host.docker.internal:5432/query_optimization}
-      DATABASE_URL_QUERY_OPTIMIZATION_TEST: ${DATABASE_URL_QUERY_OPTIMIZATION_TEST:-postgresql://postgres:postgres@host.docker.internal:5432/query_optimization_test}
-      RUN_QUERY_OPTIMIZATION_INTEGRATION_TESTS: ${RUN_QUERY_OPTIMIZATION_INTEGRATION_TESTS:-false}
     extra_hosts:
       - "host.docker.internal:host-gateway"
