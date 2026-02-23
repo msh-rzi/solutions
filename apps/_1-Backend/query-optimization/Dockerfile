@@ -18,8 +18,7 @@ COPY packages/typescript-config/package.json packages/typescript-config/package.
 COPY packages/ui-mantine/package.json packages/ui-mantine/package.json
 COPY packages/ui-shadcn/package.json packages/ui-shadcn/package.json
 
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun install --frozen-lockfile
+RUN bun install --frozen-lockfile
 
 FROM deps AS builder
 WORKDIR /app
@@ -28,11 +27,9 @@ COPY . .
 
 WORKDIR /app/apps/_1-Backend/query-optimization
 
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun run prisma:generate
+RUN bun run prisma:generate
 
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun run build
+RUN bun run build
 
 FROM oven/bun:1.3.4 AS runner
 WORKDIR /app
