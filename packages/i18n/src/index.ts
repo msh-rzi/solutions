@@ -1,4 +1,4 @@
-export const locales = ['english', 'persian', 'german'] as const;
+export const locales = ['english', 'german'] as const;
 
 export type Locale = (typeof locales)[number];
 
@@ -6,7 +6,6 @@ export type LocaleLabelMap = Partial<Record<Locale, string>>;
 
 export const localeLabels = {
   english: 'English',
-  persian: 'Persian',
   german: 'German',
 } as const satisfies Record<Locale, string>;
 
@@ -27,27 +26,23 @@ type DictionaryShape<T> = T extends string
 
 export type Dictionaries<
   TEnglish extends Dictionary,
-  TPersian extends DictionaryShape<TEnglish>,
   TGerman extends DictionaryShape<TEnglish>,
 > = {
   english: TEnglish;
-  persian: TPersian;
   german: TGerman;
 };
 
 export const createDictionaries = <
   TEnglish extends Dictionary,
-  TPersian extends DictionaryShape<TEnglish>,
   TGerman extends DictionaryShape<TEnglish>,
 >(
-  dictionaries: Dictionaries<TEnglish, TPersian, TGerman>,
+  dictionaries: Dictionaries<TEnglish, TGerman>,
 ) => dictionaries;
 
 export const getDictionary = <
   TEnglish extends Dictionary,
-  TPersian extends DictionaryShape<TEnglish>,
   TGerman extends DictionaryShape<TEnglish>,
 >(
-  dictionaries: Dictionaries<TEnglish, TPersian, TGerman>,
+  dictionaries: Dictionaries<TEnglish, TGerman>,
   locale: Locale,
 ) => dictionaries[locale];

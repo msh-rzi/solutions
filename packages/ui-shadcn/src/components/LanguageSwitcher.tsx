@@ -25,7 +25,7 @@ export function LanguageSwitcher({ locale, onLocaleChange, langs = locales, labe
       onLocaleChange(selectedLocale);
 
       document.documentElement.lang = selectedLocale;
-      document.documentElement.dir = selectedLocale === 'persian' ? 'rtl' : 'ltr';
+      document.documentElement.dir = 'ltr';
     }
   };
 
@@ -52,4 +52,3 @@ export function LanguageSwitcher({ locale, onLocaleChange, langs = locales, labe
     </DropdownMenu>
   );
 }
-

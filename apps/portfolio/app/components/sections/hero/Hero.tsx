@@ -19,13 +19,13 @@ export function Hero({ locale = 'english' }: ExampleLocaleProps) {
 
       <div className="relative mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1.15fr,0.85fr]">
         <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
-          <p className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground">{t.hero.name}</p>
-          <h1 className="mb-6 mt-4 text-balance font-display text-4xl font-semibold text-foreground sm:text-5xl lg:text-6xl">{t.hero.title}</h1>
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground">{t.hero.title}</p>
+          <h1 className="mb-6 mt-4 text-balance font-display text-4xl font-semibold text-foreground sm:text-5xl lg:text-6xl">{t.hero.name}</h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">{t.hero.description}</p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Button asChild size="lg" className="rounded-full px-6 shadow-ambient">
-              <Link href="/expertise">
+              <Link href="/#projects">
                 {t.hero.cta}
                 <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
@@ -47,4 +47,3 @@ export function Hero({ locale = 'english' }: ExampleLocaleProps) {
     </section>
   );
 }
-

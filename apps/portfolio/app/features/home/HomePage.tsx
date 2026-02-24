@@ -1,19 +1,8 @@
-import { About, Contact, Footer, Header, Hero, Projects, Skills } from '../../components';
+import { getWorkspaceProjects } from '../../components/sections/projects/projectInventory';
+import { HomePageClient } from './HomePageClient';
 
-export function HomePage() {
-  return (
-    <div className="min-h-screen bg-background font-sans">
-      <Header />
+export async function HomePage() {
+  const projects = await getWorkspaceProjects();
 
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
-
-      <Footer />
-    </div>
-  );
+  return <HomePageClient projects={projects} />;
 }

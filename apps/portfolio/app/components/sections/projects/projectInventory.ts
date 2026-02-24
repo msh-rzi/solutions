@@ -48,47 +48,47 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
   'acid-transaction-system': {
     title: 'ACID Transaction System',
     description:
-      'Financial ledger core with double-entry validation, row-level locking, overdraft protection, and immutable audit logs.',
+      'Double-entry ledger service built to prevent balance drift under concurrency, validated by 50-transfer parallel tests and immutable audit logging.',
     category: 'Backend',
     stack: ['NestJS', 'Drizzle ORM', 'PostgreSQL', 'TypeScript'],
     order: 1,
-    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/1-Backend/acid-transaction-system',
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/backend/acid-transaction-system',
   },
   'query-optimization': {
     title: 'Query Optimization Lab',
     description:
-      'N+1 performance lab comparing naive access, Prisma relation loading, and SQL left joins with per-request query metrics.',
+      'N+1 optimization lab comparing three query strategies with per-request SQL telemetry on a 100-user x 10-post benchmark dataset.',
     category: 'Backend',
     stack: ['NestJS', 'Prisma', 'PostgreSQL', 'TypeScript'],
     order: 2,
-    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_1-Backend/query-optimization',
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/backend/query-optimization',
   },
   dashboard: {
     title: 'Multi-Tenant Dashboard',
     description:
-      'Tenant-aware operations dashboard with role-focused views for analytics, users, and notifications plus in-app org switching.',
+      'Tenant-aware operations dashboard with protected routes and organization switching to reduce cross-tenant access risk in daily workflows.',
     category: 'Frontend',
     stack: ['Next.js', 'React', 'better-auth', 'shadcn/ui'],
     order: 3,
-    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/dashboard',
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/frontend/dashboard',
   },
   'data-grid': {
     title: 'High-Volume Data Grid',
     description:
-      'React data-grid prototype for large datasets with virtualization, filtering, sorting, and master-detail expansion.',
+      'High-volume grid engineered for 100,000 rows and 22 columns using virtualization, progressive loading, and responsive filtering.',
     category: 'Frontend',
     stack: ['React', 'Vite', 'TanStack Table', 'Zustand'],
     order: 4,
-    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/data-grid',
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/frontend/data-grid',
   },
   'field-level-permission-filters': {
     title: 'Field-Level Permission Filters',
     description:
-      'Schema-driven form engine with RBAC field visibility/editability, server-side filtering, and role-aware submission feedback.',
+      'Schema-driven permission engine enforcing field-level RBAC on both UI and server to block unauthorized writes before persistence.',
     category: 'Frontend',
     stack: ['Next.js', 'React', 'TanStack Form', 'Zod'],
     order: 5,
-    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/field-level-permission-filters',
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/frontend/field-level-permission-filters',
   },
 };
 
@@ -183,12 +183,7 @@ async function readJsonFile<T>(targetPath: string): Promise<T | null> {
 }
 
 async function resolveWorkspaceRoot(): Promise<string> {
-  const candidates = [
-    process.cwd(),
-    path.resolve(process.cwd(), '..'),
-    path.resolve(process.cwd(), '../..'),
-    path.resolve(process.cwd(), '../../..'),
-  ];
+  const candidates = [process.cwd(), path.resolve(process.cwd(), '..'), path.resolve(process.cwd(), '../..'), path.resolve(process.cwd(), '../../..')];
 
   for (const candidate of candidates) {
     const appsPath = path.join(candidate, 'apps');
@@ -234,8 +229,7 @@ function inferTechStack(manifest: PackageManifest, overrideStack: string[]): str
     ...(manifest.devDependencies ?? {}),
   };
 
-  const inferred = TECH_STACK_PRIORITY
-    .filter((dependencyName) => Object.hasOwn(deps, dependencyName))
+  const inferred = TECH_STACK_PRIORITY.filter((dependencyName) => Object.hasOwn(deps, dependencyName))
     .map((dependencyName) => TECH_STACK_LABELS[dependencyName])
     .filter((entry): entry is string => Boolean(entry));
 
@@ -256,10 +250,7 @@ function resolveProjectUrl(packageName: string): string | undefined {
     return undefined;
   }
 
-  const parsedPort = Number.parseInt(
-    process.env[linkConfig.portEnvName] ?? '',
-    10,
-  );
+  const parsedPort = Number.parseInt(process.env[linkConfig.portEnvName] ?? '', 10);
   const port = Number.isNaN(parsedPort) ? linkConfig.defaultPort : parsedPort;
   const protocol = process.env.APP_LINK_PROTOCOL ?? 'http';
   const host = process.env.APP_LINK_HOST ?? 'localhost';
@@ -268,11 +259,7 @@ function resolveProjectUrl(packageName: string): string | undefined {
   return `${protocol}://${host}:${port}${pathSuffix}`;
 }
 
-async function readProjectFromDirectory(
-  workspaceRoot: string,
-  categoryDirectoryName: string,
-  projectDirectoryPath: string,
-): Promise<ProjectRecord | null> {
+async function readProjectFromDirectory(workspaceRoot: string, categoryDirectoryName: string, projectDirectoryPath: string): Promise<ProjectRecord | null> {
   const manifestPath = path.join(projectDirectoryPath, 'package.json');
   const manifest = await readJsonFile<PackageManifest>(manifestPath);
 
@@ -316,11 +303,7 @@ export async function getWorkspaceProjects(): Promise<WorkspaceProject[]> {
       const rootManifestPath = path.join(categoryPath, 'package.json');
 
       if (await pathExists(rootManifestPath)) {
-        const rootProject = await readProjectFromDirectory(
-          workspaceRoot,
-          categoryEntry.name,
-          categoryPath,
-        );
+        const rootProject = await readProjectFromDirectory(workspaceRoot, categoryEntry.name, categoryPath);
         if (rootProject) {
           projects.push(rootProject);
         }
@@ -328,11 +311,7 @@ export async function getWorkspaceProjects(): Promise<WorkspaceProject[]> {
 
       const childEntries = await fs.readdir(categoryPath, { withFileTypes: true });
       for (const childEntry of childEntries) {
-        if (
-          !childEntry.isDirectory() ||
-          childEntry.name.startsWith('.') ||
-          SKIPPED_DIRECTORIES.has(childEntry.name)
-        ) {
+        if (!childEntry.isDirectory() || childEntry.name.startsWith('.') || SKIPPED_DIRECTORIES.has(childEntry.name)) {
           continue;
         }
 
@@ -342,11 +321,7 @@ export async function getWorkspaceProjects(): Promise<WorkspaceProject[]> {
           continue;
         }
 
-        const nestedProject = await readProjectFromDirectory(
-          workspaceRoot,
-          categoryEntry.name,
-          childProjectPath,
-        );
+        const nestedProject = await readProjectFromDirectory(workspaceRoot, categoryEntry.name, childProjectPath);
         if (nestedProject) {
           projects.push(nestedProject);
         }
@@ -355,11 +330,7 @@ export async function getWorkspaceProjects(): Promise<WorkspaceProject[]> {
 
     return projects
       .sort((left, right) => {
-        return (
-          left.order - right.order ||
-          left.categoryPriority - right.categoryPriority ||
-          left.title.localeCompare(right.title)
-        );
+        return left.order - right.order || left.categoryPriority - right.categoryPriority || left.title.localeCompare(right.title);
       })
       .map((project) => ({
         id: project.id,

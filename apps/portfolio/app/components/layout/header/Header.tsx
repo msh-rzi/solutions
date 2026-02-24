@@ -9,9 +9,13 @@ import { HeaderDesktopNav } from './HeaderDesktopNav';
 import { HeaderMobileNav } from './HeaderMobileNav';
 import { buildHeaderNavItems } from './buildHeaderNavItems';
 
-export function Header() {
+type HeaderProps = {
+  locale: Locale;
+  onLocaleChange: (locale: Locale) => void;
+};
+
+export function Header({ locale, onLocaleChange }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [locale, setLocale] = useState<Locale>('english');
 
   const t = getDictionary(portfolioDictionaries, locale);
   const navItems = useMemo(() => buildHeaderNavItems(t), [t]);
@@ -24,7 +28,7 @@ export function Header() {
 
           <HeaderDesktopNav items={navItems} />
 
-          <HeaderActions locale={locale} mobileMenuOpen={mobileMenuOpen} onLocaleChange={setLocale} onMobileMenuToggle={() => setMobileMenuOpen((isOpen) => !isOpen)} />
+          <HeaderActions locale={locale} mobileMenuOpen={mobileMenuOpen} onLocaleChange={onLocaleChange} onMobileMenuToggle={() => setMobileMenuOpen((isOpen) => !isOpen)} />
         </div>
 
         <HeaderMobileNav items={navItems} isOpen={mobileMenuOpen} onItemClick={() => setMobileMenuOpen(false)} />
@@ -32,4 +36,3 @@ export function Header() {
     </header>
   );
 }
-

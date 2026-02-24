@@ -1,4 +1,3 @@
-import { Button } from '@repo/ui-shadcn';
 import { ContactSocialLink } from './ContactSocialLink';
 import { socialLinks } from './socialLinks';
 import { ExampleLocaleProps } from '../../types';
@@ -17,10 +16,6 @@ export function Contact({ locale = 'english' }: ExampleLocaleProps) {
               <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary">{t.contact.title}</p>
               <h2 className="mb-4 mt-4 text-balance font-display text-3xl text-foreground sm:text-4xl">{t.contact.heading}</h2>
               <p className="max-w-xl leading-relaxed text-muted-foreground">{t.contact.description}</p>
-
-              <Button asChild className="mt-6 rounded-full px-6 shadow-ambient">
-                <a href="mailto:hello@mehdi.dev">{t.contact.cta}</a>
-              </Button>
             </div>
 
             <div className="space-y-4">
@@ -34,4 +29,3 @@ export function Contact({ locale = 'english' }: ExampleLocaleProps) {
     </section>
   );
 }
-
