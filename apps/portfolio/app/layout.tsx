@@ -24,9 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ShadcnThemeProvider>{children}</ShadcnThemeProvider>
+        <ShadcnThemeProvider defaultTheme="dark">{children}</ShadcnThemeProvider>
       </body>
     </html>
   );
 }
-
