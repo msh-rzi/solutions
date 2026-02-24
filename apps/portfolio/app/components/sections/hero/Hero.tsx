@@ -1,11 +1,24 @@
 import Link from 'next/link';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, Download } from 'lucide-react';
 import { Button } from '@repo/ui-shadcn';
 import { buildHeroHighlights } from './buildHeroHighlights';
 import { HeroHighlights } from './HeroHighlights';
 import { HeroSnapshot } from './HeroSnapshot';
 import { ExampleLocaleProps } from '../../types';
 import { getPortfolioDictionary } from '../../getPortfolioDictionary';
+
+function downloadResume() {
+  const lang = document.documentElement.lang || 'english';
+  console.log({ lang });
+  const link = document.createElement('a');
+  const resumePath = lang === 'english' ? '/Mehdi_Rezaie_Fullstack_Engineer_EN_2026.pdf' : '/Mehdi_Rezaie_Fullstack_Engineer_DE_2026.pdf';
+  link.href = resumePath;
+  const langLabel = lang === 'english' ? 'EN' : 'DE';
+  link.download = `Mehdi_Rezaie_Fullstack_Engineer_${langLabel}_2026.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 export function Hero({ locale = 'english' }: ExampleLocaleProps) {
   const t = getPortfolioDictionary(locale);
@@ -37,6 +50,11 @@ export function Hero({ locale = 'english' }: ExampleLocaleProps) {
                 {t.hero.contact}
               </Link>
             </Button>
+
+            <Button size="lg" variant="outline" className="rounded-full px-6 shadow-ambient cursor-pointer" onClick={downloadResume}>
+              <Download className="me-2 h-4 w-4" />
+              {t.hero.downloadResume}
+            </Button>
           </div>
 
           <HeroHighlights items={highlightItems} label={t.hero.highlightsLabel} />
@@ -47,3 +65,4 @@ export function Hero({ locale = 'english' }: ExampleLocaleProps) {
     </section>
   );
 }
+

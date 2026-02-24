@@ -17,6 +17,7 @@
       description: 'I build products end to end: backend services, frontend apps, and delivery pipelines.',
       cta: 'View Projects',
       contact: 'Contact',
+      downloadResume: 'Download CV',
       highlightsLabel: 'What I build',
       highlights: [
         'Multi-tenant dashboards with organization switching',
@@ -167,6 +168,7 @@
       description: 'Ich baue Produkte Ende zu Ende: Backend-Services, Frontend-Apps und Delivery-Pipelines.',
       cta: 'Projekte ansehen',
       contact: 'Kontakt',
+      downloadResume: 'CV herunterladen',
       highlightsLabel: 'Was ich baue',
       highlights: [
         'Mandantenfahige Dashboards mit Organisationswechsel',

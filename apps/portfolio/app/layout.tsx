@@ -22,10 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="english">
       <body>
         <ShadcnThemeProvider defaultTheme="dark">{children}</ShadcnThemeProvider>
       </body>
     </html>
   );
 }
+
