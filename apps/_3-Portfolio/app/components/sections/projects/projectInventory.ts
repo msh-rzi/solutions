@@ -52,6 +52,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Backend',
     stack: ['NestJS', 'Drizzle ORM', 'PostgreSQL', 'TypeScript'],
     order: 1,
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/1-Backend/acid-transaction-system',
   },
   'query-optimization': {
     title: 'Query Optimization Lab',
@@ -60,6 +61,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Backend',
     stack: ['NestJS', 'Prisma', 'PostgreSQL', 'TypeScript'],
     order: 2,
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_1-Backend/query-optimization',
   },
   dashboard: {
     title: 'Multi-Tenant Dashboard',
@@ -68,6 +70,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Frontend',
     stack: ['Next.js', 'React', 'better-auth', 'shadcn/ui'],
     order: 3,
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/dashboard',
   },
   'data-grid': {
     title: 'High-Volume Data Grid',
@@ -76,6 +79,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Frontend',
     stack: ['React', 'Vite', 'TanStack Table', 'Zustand'],
     order: 4,
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/data-grid',
   },
   'field-level-permission-filters': {
     title: 'Field-Level Permission Filters',
@@ -84,6 +88,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
     category: 'Frontend',
     stack: ['Next.js', 'React', 'TanStack Form', 'Zod'],
     order: 5,
+    appUrl: 'https://github.com/msh-rzi/solutions/tree/master/apps/_2-Frontend/field-level-permission-filters',
   },
 };
 
