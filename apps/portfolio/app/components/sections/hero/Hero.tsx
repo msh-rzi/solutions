@@ -11,10 +11,10 @@ function downloadResume() {
   const lang = document.documentElement.lang || 'english';
   console.log({ lang });
   const link = document.createElement('a');
-  const resumePath = lang === 'english' ? '/Mehdi_Rezaie_Fullstack_Engineer_EN_2026.pdf' : '/Mehdi_Rezaie_Fullstack_Engineer_DE_2026.pdf';
+  const resumePath = lang === 'english' ? '/Mehdi_Rezaei_Fullstack_Engineer_EN_2026.pdf' : '/Mehdi_Rezaei_Fullstack_Engineer_DE_2026.pdf';
   link.href = resumePath;
   const langLabel = lang === 'english' ? 'EN' : 'DE';
-  link.download = `Mehdi_Rezaie_Fullstack_Engineer_${langLabel}_2026.pdf`;
+  link.download = `Mehdi_Rezaei_Fullstack_Engineer_${langLabel}_2026.pdf`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
