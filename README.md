@@ -6,12 +6,12 @@ This workspace is a Bun + Turborepo monorepo that groups multiple production-sty
 
 | Area | App | Path | Primary Stack |
 | --- | --- | --- | --- |
-| Backend | ACID Transaction System | `apps/_1-Backend/acid-transaction-system` | NestJS, Drizzle ORM, PostgreSQL, TypeScript |
-| Backend | Query Optimization Lab | `apps/_1-Backend/query-optimization` | NestJS, Prisma, PostgreSQL, TypeScript |
-| Frontend | Field-Level Permission Filters | `apps/_2-Frontend/field-level-permission-filters` | Next.js, React, TanStack Form, Zod |
-| Frontend | Data Grid | `apps/_2-Frontend/data-grid` | React, Vite, TanStack Table, TanStack Virtual, Zustand |
-| Frontend | Dashboard | `apps/_2-Frontend/dashboard` | Next.js, React, better-auth, shadcn/ui |
-| Portfolio | Portfolio Site | `apps/_3-Portfolio` | Next.js, React, shared UI packages |
+| Backend | ACID Transaction System | `apps/backend/acid-transaction-system` | NestJS, Drizzle ORM, PostgreSQL, TypeScript |
+| Backend | Query Optimization Lab | `apps/backend/query-optimization` | NestJS, Prisma, PostgreSQL, TypeScript |
+| Frontend | Field-Level Permission Filters | `apps/frontend/field-level-permission-filters` | Next.js, React, TanStack Form, Zod |
+| Frontend | Data Grid | `apps/frontend/data-grid` | React, Vite, TanStack Table, TanStack Virtual, Zustand |
+| Frontend | Dashboard | `apps/frontend/dashboard` | Next.js, React, better-auth, shadcn/ui |
+| Portfolio | Portfolio Site | `apps/portfolio` | Next.js, React, shared UI packages |
 
 ## Shared Tooling
 
@@ -37,12 +37,12 @@ bun install
 ```
 
 2. Ensure PostgreSQL is available, then configure local `.env` files for each app you plan to run by copying each app's `.env.example`:
-   - `apps/_3-Portfolio/.env.example`
-   - `apps/_2-Frontend/field-level-permission-filters/.env.example`
-   - `apps/_2-Frontend/data-grid/.env.example`
-   - `apps/_2-Frontend/dashboard/.env.example`
-   - `apps/_1-Backend/acid-transaction-system/.env.example`
-   - `apps/_1-Backend/query-optimization/.env.example`
+   - `apps/portfolio/.env.example`
+   - `apps/frontend/field-level-permission-filters/.env.example`
+   - `apps/frontend/data-grid/.env.example`
+   - `apps/frontend/dashboard/.env.example`
+   - `apps/backend/acid-transaction-system/.env.example`
+   - `apps/backend/query-optimization/.env.example`
 
 3. Start all apps:
 

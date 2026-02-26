@@ -5,12 +5,12 @@ WORKDIR /app
 
 COPY package.json bun.lock turbo.json .npmrc ./
 
-COPY apps/_1-Backend/acid-transaction-system/package.json apps/_1-Backend/acid-transaction-system/package.json
-COPY apps/_1-Backend/query-optimization/package.json apps/_1-Backend/query-optimization/package.json
-COPY apps/_2-Frontend/dashboard/package.json apps/_2-Frontend/dashboard/package.json
-COPY apps/_2-Frontend/data-grid/package.json apps/_2-Frontend/data-grid/package.json
-COPY apps/_2-Frontend/field-level-permission-filters/package.json apps/_2-Frontend/field-level-permission-filters/package.json
-COPY apps/_3-Portfolio/package.json apps/_3-Portfolio/package.json
+COPY apps/backend/acid-transaction-system/package.json apps/backend/acid-transaction-system/package.json
+COPY apps/backend/query-optimization/package.json apps/backend/query-optimization/package.json
+COPY apps/frontend/dashboard/package.json apps/frontend/dashboard/package.json
+COPY apps/frontend/data-grid/package.json apps/frontend/data-grid/package.json
+COPY apps/frontend/field-level-permission-filters/package.json apps/frontend/field-level-permission-filters/package.json
+COPY apps/portfolio/package.json apps/portfolio/package.json
 COPY packages/eslint-config/package.json packages/eslint-config/package.json
 COPY packages/i18n/package.json packages/i18n/package.json
 COPY packages/tailwind-config/package.json packages/tailwind-config/package.json
@@ -25,7 +25,7 @@ WORKDIR /app
 
 COPY . .
 
-WORKDIR /app/apps/_1-Backend/query-optimization
+WORKDIR /app/apps/backend/query-optimization
 
 RUN bun run prisma:generate
 
@@ -43,7 +43,7 @@ ENV NODE_ENV=production \
 
 COPY --from=builder --chown=bun:bun /app /app
 
-WORKDIR /app/apps/_1-Backend/query-optimization
+WORKDIR /app/apps/backend/query-optimization
 EXPOSE 3021
 
 CMD ["sh", "-c", "if [ -n \"$DATABASE_URL_QUERY_OPTIMIZATION\" ]; then export DATABASE_URL_QUERY_OPTIMIZATION=$(printf \"%s\" \"$DATABASE_URL_QUERY_OPTIMIZATION\" | sed 's/@localhost:/@host.docker.internal:/g'); fi; if [ -n \"$DATABASE_URL_QUERY_OPTIMIZATION_TEST\" ]; then export DATABASE_URL_QUERY_OPTIMIZATION_TEST=$(printf \"%s\" \"$DATABASE_URL_QUERY_OPTIMIZATION_TEST\" | sed 's/@localhost:/@host.docker.internal:/g'); fi; bun dist/main.js"]

@@ -63,7 +63,7 @@ When multiple requests modify the same accounts, balance drift can happen if wri
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Create `apps/_1-Backend/acid-transaction-system/.env` from `apps/_1-Backend/acid-transaction-system/.env.example` and configure:
+2. Create `apps/backend/acid-transaction-system/.env` from `apps/backend/acid-transaction-system/.env.example` and configure:
    - `DATABASE_URL`
    - `PORT_ACID_TRANSACTION_SYSTEM`
 3. Run migrations:

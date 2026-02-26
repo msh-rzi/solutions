@@ -58,7 +58,7 @@ The service demonstrates how a naive users-plus-posts fetch pattern creates N+1 
 ## Run Locally
 
 1. From repo root: `bun install`
-2. Create `apps/_1-Backend/query-optimization/.env` from `apps/_1-Backend/query-optimization/.env.example` and configure:
+2. Create `apps/backend/query-optimization/.env` from `apps/backend/query-optimization/.env.example` and configure:
    - `DATABASE_URL_QUERY_OPTIMIZATION`
    - `PORT_QUERY_OPTIMIZATION`
 3. Prepare database:

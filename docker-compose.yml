@@ -10,13 +10,11 @@ x-service-defaults: &service-defaults
 services:
   portfolio:
     <<: *service-defaults
-    mem_limit: ${PORTFOLIO_MEM_LIMIT:-450m}
-    cpus: "${PORTFOLIO_CPUS:-0.60}"
     build:
       context: .
-      dockerfile: apps/_3-Portfolio/Dockerfile
+      dockerfile: apps/portfolio/Dockerfile
     env_file:
-      - apps/_3-Portfolio/.env
+      - apps/portfolio/.env
     ports:
       - "3010:3010"
     environment:
@@ -30,13 +28,11 @@ services:
       PORT_QUERY_OPTIMIZATION: "3021"
   field-level-permission-filters:
     <<: *service-defaults
-    mem_limit: ${FLP_MEM_LIMIT:-320m}
-    cpus: "${FLP_CPUS:-0.45}"
     build:
       context: .
-      dockerfile: apps/_2-Frontend/field-level-permission-filters/Dockerfile
+      dockerfile: apps/frontend/field-level-permission-filters/Dockerfile
     env_file:
-      - apps/_2-Frontend/field-level-permission-filters/.env
+      - apps/frontend/field-level-permission-filters/.env
     ports:
       - "3011:3011"
     environment:
@@ -44,23 +40,19 @@ services:
 
   data-grid:
     <<: *service-defaults
-    mem_limit: ${DATA_GRID_MEM_LIMIT:-128m}
-    cpus: "${DATA_GRID_CPUS:-0.20}"
     build:
       context: .
-      dockerfile: apps/_2-Frontend/data-grid/Dockerfile
+      dockerfile: apps/frontend/data-grid/Dockerfile
     ports:
       - "3012:80"
 
   dashboard:
     <<: *service-defaults
-    mem_limit: ${DASHBOARD_MEM_LIMIT:-420m}
-    cpus: "${DASHBOARD_CPUS:-0.50}"
     build:
       context: .
-      dockerfile: apps/_2-Frontend/dashboard/Dockerfile
+      dockerfile: apps/frontend/dashboard/Dockerfile
     env_file:
-      - apps/_2-Frontend/dashboard/.env
+      - apps/frontend/dashboard/.env
     ports:
       - "3013:3013"
     environment:
@@ -70,13 +62,11 @@ services:
 
   acid-transaction-system:
     <<: *service-defaults
-    mem_limit: ${ATS_MEM_LIMIT:-256m}
-    cpus: "${ATS_CPUS:-0.30}"
     build:
       context: .
-      dockerfile: apps/_1-Backend/acid-transaction-system/Dockerfile
+      dockerfile: apps/backend/acid-transaction-system/Dockerfile
     env_file:
-      - apps/_1-Backend/acid-transaction-system/.env
+      - apps/backend/acid-transaction-system/.env
     ports:
       - "3020:3020"
     environment:
@@ -87,13 +77,11 @@ services:
 
   query-optimization:
     <<: *service-defaults
-    mem_limit: ${QO_MEM_LIMIT:-256m}
-    cpus: "${QO_CPUS:-0.30}"
     build:
       context: .
-      dockerfile: apps/_1-Backend/query-optimization/Dockerfile
+      dockerfile: apps/backend/query-optimization/Dockerfile
     env_file:
-      - apps/_1-Backend/query-optimization/.env
+      - apps/backend/query-optimization/.env
     ports:
       - "3021:3021"
     environment:
