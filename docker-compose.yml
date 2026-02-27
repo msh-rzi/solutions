@@ -2,10 +2,10 @@ x-service-defaults: &service-defaults
   init: true
   restart: unless-stopped
   logging:
-    driver: "json-file"
+    driver: 'json-file'
     options:
-      max-size: "10m"
-      max-file: "3"
+      max-size: '10m'
+      max-file: '3'
 
 services:
   portfolio:
@@ -15,17 +15,24 @@ services:
       dockerfile: apps/portfolio/Dockerfile
     env_file:
       - apps/portfolio/.env
-    ports:
-      - "3010:3010"
+    networks:
+      - web
     environment:
-      PORT_PORTFOLIO: "3010"
-      APP_LINK_PROTOCOL: "http"
-      APP_LINK_HOST: "localhost"
-      PORT_FIELD_LEVEL_PERMISSION_FILTERS: "3011"
-      PORT_DATA_GRID: "3012"
-      PORT_DASHBOARD: "3013"
-      PORT_ACID_TRANSACTION_SYSTEM: "3020"
-      PORT_QUERY_OPTIMIZATION: "3021"
+      PORT_PORTFOLIO: '3010'
+      APP_LINK_PROTOCOL: 'https'
+      APP_LINK_HOST: 'mehdify.com'
+      PORT_FIELD_LEVEL_PERMISSION_FILTERS: '3011'
+      PORT_DATA_GRID: '3012'
+      PORT_DASHBOARD: '3013'
+      PORT_ACID_TRANSACTION_SYSTEM: '3020'
+      PORT_QUERY_OPTIMIZATION: '3021'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.portfolio.rule=Host(`mehdify.com`) || Host(`www.mehdify.com`)'
+      - 'traefik.http.routers.portfolio.entrypoints=websecure'
+      - 'traefik.http.routers.portfolio.tls.certresolver=myresolver'
+      - 'traefik.http.services.portfolio.loadbalancer.server.port=3010'
+
   field-level-permission-filters:
     <<: *service-defaults
     build:
@@ -33,18 +40,18 @@ services:
       dockerfile: apps/frontend/field-level-permission-filters/Dockerfile
     env_file:
       - apps/frontend/field-level-permission-filters/.env
-    ports:
-      - "3011:3011"
+    networks:
+      - web
     environment:
-      PORT_FIELD_LEVEL_PERMISSION_FILTERS: "3011"
+      PORT_FIELD_LEVEL_PERMISSION_FILTERS: '3011'
 
   data-grid:
     <<: *service-defaults
     build:
       context: .
       dockerfile: apps/frontend/data-grid/Dockerfile
-    ports:
-      - "3012:80"
+    networks:
+      - web
 
   dashboard:
     <<: *service-defaults
@@ -53,10 +60,10 @@ services:
       dockerfile: apps/frontend/dashboard/Dockerfile
     env_file:
       - apps/frontend/dashboard/.env
-    ports:
-      - "3013:3013"
+    networks:
+      - web
     environment:
-      PORT_DASHBOARD: "3013"
+      PORT_DASHBOARD: '3013'
       AUTH_SECRET: ${AUTH_SECRET:-change-me-please}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-please}
 
@@ -67,13 +74,13 @@ services:
       dockerfile: apps/backend/acid-transaction-system/Dockerfile
     env_file:
       - apps/backend/acid-transaction-system/.env
-    ports:
-      - "3020:3020"
+    networks:
+      - web
     environment:
-      APP_HOST: "0.0.0.0"
-      PORT_ACID_TRANSACTION_SYSTEM: "3020"
+      APP_HOST: '0.0.0.0'
+      PORT_ACID_TRANSACTION_SYSTEM: '3020'
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   query-optimization:
     <<: *service-defaults
@@ -82,10 +89,14 @@ services:
       dockerfile: apps/backend/query-optimization/Dockerfile
     env_file:
       - apps/backend/query-optimization/.env
-    ports:
-      - "3021:3021"
+    networks:
+      - web
     environment:
-      APP_HOST: "0.0.0.0"
-      PORT_QUERY_OPTIMIZATION: "3021"
+      APP_HOST: '0.0.0.0'
+      PORT_QUERY_OPTIMIZATION: '3021'
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
+
+networks:
+  web:
+    external: true
